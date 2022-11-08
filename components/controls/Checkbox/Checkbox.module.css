@@ -1,0 +1,13 @@
+.CheckboxContainer {
+  display: flex;
+  align-items: center;
+}
+
+.CheckboxContainer.Filter {
+  margin-bottom: 16px;
+}
+
+.CheckboxLabel.Filter {
+  color: #262626;
+  font-size: 15px;
+}

@@ -1,0 +1,171 @@
+.Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.Button span {
+  display: grid;
+  place-items: center;
+  margin: 0 !important;
+}
+
+.Button.Subscribe,
+.Button.OrderDetail {
+  padding: 10px 40px;
+  background-color: #a6623d;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.Button.OrderDetail {
+  font-size: 16px;
+  border-radius: 5px;
+  margin: auto;
+}
+
+.Button.View,
+.Button.Checkout,
+.Button.View-White,
+.Button.ContactForm {
+  position: relative;
+  padding: 10px 65px;
+  background-color: #bd744c;
+  border: 1px solid #bd744c;
+  color: white;
+  z-index: 0;
+  font-size: 20px;
+  margin-top: 30px;
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.Button.ContactForm {
+  width: 100px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.Button.View-White {
+  background-color: white;
+  color: #bd744c;
+  margin-right: 10px;
+}
+
+.Button.View::after,
+.Button.Checkout::after,
+.Button.View-White::after {
+  transition: all 0.3s ease-in;
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0) !important;
+  transform-origin: left;
+  background-color: #fff;
+  z-index: -1;
+}
+
+.Button.View-White::after {
+  background-color: #bd744c;
+}
+
+.Button.View:hover,
+.Button.Checkout:hover {
+  color: #bd744c;
+}
+
+.Button.View-White:hover {
+  color: #fff;
+}
+.Button.View:hover::after,
+.Button.Checkout:hover::after,
+.Button.View-White:hover::after {
+  transform: scaleX(1) !important;
+}
+
+.Button.Auth {
+  background: linear-gradient(to right, #ec705f, #edb1a4);
+  color: white;
+  font-size: 19px;
+  padding: 6px 10px;
+  border-radius: 25px;
+  transition: all 0.3s linear;
+  cursor: pointer;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  width: 150px;
+}
+
+.Button.Auth:hover {
+  opacity: 0.8;
+}
+
+.Button.SignUp {
+  padding: 8px 15px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 500;
+  display: flex;
+  align-items: center;
+}
+
+.Button.Shipping {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #6f6f6f;
+  color: white;
+  font-size: 20px;
+  margin-bottom: 18px;
+  width: 150px;
+}
+
+.Button.Loader span {
+  animation: rotate 0.7s ease-in;
+  animation-iteration-count: infinite;
+}
+
+.Button.Pay {
+  width: 100%;
+  color: white;
+  border-radius: 25px;
+  background-color: #3e88eb;
+  font-size: 25px;
+  text-align: center;
+  padding: 8px 0;
+  font-weight: bold;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(-360deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .Button.Subscribe {
+    width: 150px;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 700px) {
+  .Button.SignUp {
+    border: none;
+    margin-right: 0;
+  }
+}

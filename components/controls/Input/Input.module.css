@@ -1,0 +1,115 @@
+.Container {
+  display: flex;
+}
+
+.Container.NewsTeller {
+  background-color: white;
+  padding: 5px 18px;
+  margin-right: 15px;
+  width: 300px;
+}
+
+.Container.Auth {
+  width: 100%;
+  align-self: stretch !important;
+}
+
+.Container.Shipping {
+  width: 100%;
+}
+
+.Container.CreditCard {
+  width: 100%;
+}
+
+.MainContainer.CreditCard {
+  width: 100%;
+}
+
+.Input.NewsTeller {
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #6e7379;
+}
+
+.Input.NewsTeller::placeholder {
+  color: #f0f0f0;
+  font-size: 14px;
+}
+
+.Input.CartCode {
+  background-color: #f9f9f9;
+  color: black;
+  padding: 6px 4px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.Input.CartCode::placeholder {
+  color: #f1f1f1;
+}
+
+.Input.Auth {
+  font-size: 18px;
+  border-radius: 25px;
+  width: 100%;
+  padding: 8px 15px;
+  background-color: #fafafa;
+  color: #9d8ba4;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+.Input.Auth::placeholder {
+  text-align: center;
+  color: #9d8ba4;
+}
+
+.Input.Shipping,
+.Input.ContactForm {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 3px solid transparent;
+  background-color: #f7f7f9;
+  color: #6f6f6f;
+  font-size: 19px;
+  margin: 2px 0;
+  width: 100%;
+  resize: vertical;
+}
+
+.Input.Shipping:focus {
+  border: 3px solid #ebebed;
+}
+
+.Input.CreditCard {
+  padding: 7px 10px;
+  color: #838890;
+  width: 100%;
+  font-size: 20px;
+}
+
+.Input.CreditCard::placeholder {
+  color: #fff;
+}
+
+.Label.Shipping {
+  color: #6f6f6f;
+  font-size: 18px;
+}
+
+.Error.Shipping,
+.Error.ContactForm {
+  color: red;
+  font-size: 18px;
+}
+
+.MainContainer.Shipping,
+.MainContainer.ContactForm {
+  margin-bottom: 18px;
+  width: 100%;
+}
