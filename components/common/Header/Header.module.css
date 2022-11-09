@@ -1,0 +1,42 @@
+.Header {
+  display: flex;
+  flex-direction: column;
+}
+
+.Header ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #121823;
+  padding: 10px 45px;
+}
+
+.Header .Logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Header .Home {
+  font-size: 23px;
+  margin-top: 10px;
+}
+
+.Header ul li {
+  margin: 0 15px;
+  color: #dfe3eb;
+  font-size: 20px;
+}
+
+.Header ul div {
+  display: flex;
+  align-items: center;
+}
+
+.Header .Input {
+  width: 100%;
+  background-color: #404b53;
+  padding: 12px 50px;
+  display: flex;
+  justify-content: flex-end;
+}
