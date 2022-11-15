@@ -1,0 +1,88 @@
+.Post {
+  padding: 15px 50px;
+  box-shadow: 0px 0px 8px -5px rgba(0, 0, 0, 0.35);
+  border-radius: 5px;
+}
+
+.Post .Image {
+  width: 100%;
+  height: 250px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.Post .SectionOne {
+  margin-bottom: 8px;
+}
+
+.Post .SectionOne,
+.Post .SectionTwo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Post .SectionOne span {
+  font-size: 17px;
+}
+
+.Post .SectionOne span:first-child {
+  color: #9c9c9e;
+}
+
+.Post .SectionOne span:last-child {
+  color: white;
+  background-color: #d97705;
+  padding: 5px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.Post h3 {
+  font-size: 25px;
+  color: #464a52;
+  margin: 15px 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.Post p {
+  color: #a2a5a6;
+  font-size: 16px;
+  margin-bottom: 30px;
+  text-align: justify;
+}
+
+.Post .SectionTwo span {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Post .SectionTwo span:first-child {
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: #3e77a5;
+  color: #fff;
+  transition: all 0.5s ease;
+}
+
+.Post .SectionTwo span:first-child:hover {
+  background-color: #fff;
+  color: #3e77a5;
+}
+
+.Post .SectionTwo div {
+  display: flex;
+  align-items: center;
+}
+
+.Post .SectionTwo div span {
+  font-weight: 500;
+  color: #374151;
+  font-size: 18px;
+}
+
+.Post .AuthorImage {
+  border-radius: 50%;
+  margin-right: 8px;
+}

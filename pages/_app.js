@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/Select/Select.css';
 import '../public/Resource/Stylesheets/reset.css';
 import '../public/Resource/Stylesheets/config.css';
 import '../public/Resource/Stylesheets/responsive.css';

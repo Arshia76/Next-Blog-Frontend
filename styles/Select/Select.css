@@ -1,0 +1,22 @@
+.PostSelectContainer {
+  margin: 15px 0;
+}
+
+.PostSelect {
+  width: 100%;
+  margin-bottom: 15px;
+  margin-top: 8px;
+}
+
+.PostSelectLabel {
+  font-size: 18px;
+}
+
+.PostSelect__control {
+  color: #e0e4e8 !important;
+}
+
+.PostSelect__control--is-focused {
+  box-shadow: none !important;
+  border-color: #e0e4e8 !important;
+}

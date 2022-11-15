@@ -1,6 +1,9 @@
 .Header {
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .Header ul {
@@ -26,6 +29,11 @@
   margin: 0 15px;
   color: #dfe3eb;
   font-size: 20px;
+  transition: all 0.3s linear;
+}
+
+.Header ul li:hover {
+  color: rgb(184, 113, 250);
 }
 
 .Header ul div {

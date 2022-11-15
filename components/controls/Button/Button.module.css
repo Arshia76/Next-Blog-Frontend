@@ -31,6 +31,54 @@
   background-color: white;
 }
 
+.Button.Hero {
+  border-radius: 5px;
+  background-color: #fff;
+  color: #454752;
+  padding: 10px 20px;
+  font-size: 18px;
+  opacity: 0.7;
+  margin-top: 20px;
+  transition: all 0.2s ease-in;
+}
+
+.Button.Hero:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.Button.PostButton,
+.Button.Edit,
+.Button.Save {
+  background-color: #0e6dfc;
+  font-size: 18px;
+  padding: 5px 18px;
+  border-radius: 5px;
+  margin-right: 8px;
+  color: #fff;
+}
+
+.Button.Edit,
+.Button.Save {
+  background-color: #d68a50;
+}
+
+.Button.PostButton-Cancel {
+  background-color: #6c757d;
+  color: #fff;
+  font-size: 18px;
+  padding: 5px 18px;
+  border-radius: 5px;
+}
+
+.Button.Profile {
+  background-color: #d68a50;
+  font-size: 18px;
+  padding: 5px 18px;
+  border-radius: 5px;
+  color: #fff;
+}
+
 .Button.Loader span {
   animation: rotate 0.7s ease-in;
   animation-iteration-count: infinite;

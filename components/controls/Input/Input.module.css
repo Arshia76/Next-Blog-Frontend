@@ -2,9 +2,12 @@
   display: flex;
 }
 
+.MainContainer.Auth {
+  width: 100%;
+}
+
 .Container.Auth {
   width: 100%;
-  align-self: stretch !important;
 }
 
 .Container.Search {
@@ -17,18 +20,18 @@
 
 .Input.Auth {
   font-size: 18px;
-  border-radius: 25px;
+  border-radius: 5px;
   width: 100%;
   padding: 8px 15px;
-  background-color: #fafafa;
-  color: #9d8ba4;
+  background-color: #eeeeee;
+  color: rgb(102, 52, 52);
   margin-bottom: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid #eee;
+  width: 100%;
 }
 
 .Input.Auth::placeholder {
-  text-align: center;
-  color: #9d8ba4;
+  color: #959aa9;
   border: none;
 }
 
@@ -37,9 +40,50 @@
   background-color: white;
   font-size: 16px;
   border-radius: 25px;
+  padding: 0 5px;
 }
 
 .Input.Search::placeholder {
   color: #dddfe2;
   font-size: 16px;
+}
+
+.MainContainer.PostInput,
+.MainContainer.Edit {
+  margin-bottom: 15px;
+}
+
+.MainContainer.Edit {
+  margin-right: 20px;
+  width: 100%;
+}
+
+.Input.PostInput,
+.Input.Edit {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #e0e4e8;
+  border-radius: 5px;
+  font-size: 18px;
+  resize: none;
+  margin: 5px 0;
+}
+
+.Input.Edit {
+  color: rgb(102, 52, 52);
+}
+
+.Error.PostInput,
+.Error.Edit {
+  font-size: 16px;
+  color: rgb(189, 33, 33);
+}
+
+.Label.PostInput,
+.Label.Edit {
+  font-size: 18px;
+}
+
+.Label.Edit {
+  color: rgb(102, 52, 52);
 }

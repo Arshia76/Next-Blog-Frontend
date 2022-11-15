@@ -30,7 +30,7 @@ const Header = () => {
         </li>
         <div>
           <li>
-            <Link href={Resource.Routes.BLOG.toString()}>Blog</Link>
+            <Link href={Resource.Routes.POST.toString()}>Posts</Link>
           </li>
           <li>
             <Link href={Resource.Routes.ABOUT.toString()}>About</Link>

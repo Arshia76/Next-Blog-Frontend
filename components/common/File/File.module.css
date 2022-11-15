@@ -1,0 +1,29 @@
+.FileContainer {
+  border: 1px solid #e0e4e8;
+  border-radius: 5px;
+  margin: 15px 0;
+  padding: 5px 10px;
+  cursor: pointer;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.FileName {
+  display: flex;
+  align-items: center;
+}
+
+.FileName span {
+  margin-left: 5px;
+  font-size: 18px;
+}
+
+.FileImage {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  max-width: 100%;
+  object-fit: cover;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
