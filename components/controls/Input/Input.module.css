@@ -48,6 +48,27 @@
   font-size: 16px;
 }
 
+.MainContainer.Comment {
+  margin-top: 50px;
+}
+
+.Input.Comment {
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-top: 15px;
+  color: #1e2f38;
+  font-size: 18px;
+  border-radius: 5px;
+  width: 100%;
+  resize: none;
+  border: 1px solid #f9d7d8;
+}
+
+.Label.Comment {
+  font-size: 30px;
+  color: #1e2f38;
+}
+
 .MainContainer.PostInput,
 .MainContainer.Edit {
   margin-bottom: 15px;

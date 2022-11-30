@@ -1,0 +1,39 @@
+.Comment {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.Comment .Content {
+  margin-left: 20px;
+  box-shadow: 0px 0px 8px -5px rgba(0, 0, 0, 0.35);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.Comment .Content div {
+  display: flex;
+  align-items: center;
+}
+
+.Comment .Content span {
+  font-size: 16px;
+  color: #8f9395;
+  background-color: #fff;
+  margin-left: 20px;
+}
+
+.Comment .Content span:first-child {
+  color: #1e2f38;
+  font-size: 18px;
+  margin-right: 20px;
+  background-color: #fff;
+  margin-left: 0;
+}
+
+.Comment p {
+  font-size: 16px;
+  color: #1e2f38;
+  text-align: justify;
+  margin-top: 20px;
+}

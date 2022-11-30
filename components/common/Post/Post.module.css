@@ -86,3 +86,27 @@
   border-radius: 50%;
   margin-right: 8px;
 }
+
+.Post .SectionThree {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  border-top: 2px solid rgba(0, 0, 0, 0.438);
+  padding: 20px 0;
+}
+
+.Post .SectionThree div {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  cursor: pointer;
+  padding: 6px;
+  background-color: #ffe1df86;
+  border-radius: 5px;
+}
+
+.Post .SectionThree div span {
+  font-size: 16px;
+  color: #464a52;
+  margin-left: 6px;
+}

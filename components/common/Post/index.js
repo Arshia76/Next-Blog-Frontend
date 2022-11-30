@@ -2,6 +2,13 @@ import Image from 'next/image';
 import styles from './Post.module.css';
 import { useRouter } from 'next/router';
 import Resource from '../../../public/Resource';
+import {
+  BsFillHeartFill,
+  BsHeart,
+  BsBookmark,
+  BsFillBookmarkFill,
+} from 'react-icons/bs';
+import { FaRegComment } from 'react-icons/fa';
 
 const Post = (props) => {
   const router = useRouter();
@@ -42,6 +49,19 @@ const Post = (props) => {
             objectFit='contain'
           />
           <span>{props.authorName || 'Arshia'}</span>
+        </div>
+      </div>
+      <div className={styles.SectionThree}>
+        <div>
+          <FaRegComment size={22} fill='#877E81' />
+          <span>23</span>
+        </div>
+        <div>
+          <BsHeart size={22} fill='#877E81' />
+          <span>52</span>
+        </div>
+        <div>
+          <BsBookmark size={22} fill='#877E81' />
         </div>
       </div>
     </div>

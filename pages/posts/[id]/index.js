@@ -1,5 +1,8 @@
 import styles from '../../../styles/Detail.module.css';
 import Image from 'next/image';
+import Comment from '../../../components/page/Detail/Comment';
+import Input from '../../../components/controls/Input';
+import Button from '../../../components/controls/Button';
 
 const PostDeatailpage = (props) => {
   return (
@@ -57,6 +60,28 @@ const PostDeatailpage = (props) => {
           distinctio veniam dolor saepe repudiandae aliquid expedita accusamus
           voluptatem eaque facilis perferendis. `}
         </p>
+      </div>
+      <div className={styles.Comments}>
+        <h5>Comments</h5>
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Input
+          type='text'
+          kind='textarea'
+          className='Comment'
+          errorClassName='Comment'
+          labelClassName='Comment'
+          mainContainerClassName='Comment'
+          name='comment'
+          placeholder='Write your comment....'
+          label='Write your comment'
+          rows={6}
+          cols={4}
+        />
+        <Button title={'Confirm'} className='Comment' />
       </div>
     </div>
   );
