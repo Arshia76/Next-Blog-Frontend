@@ -1,27 +1,31 @@
 import Image from 'next/image';
 import styles from './Comment.module.css';
+import PropTypes from 'prop-types';
+import moment from 'jalali-moment';
 
 const Comment = (props) => {
   return (
     <div className={styles.Comment}>
       <Image
         src={
-          props.img ||
-          'https://www.clinicdermatech.com/images/men-service-face.jpg'
+          'https://www.clinicdermatech.com/images/men-service-face.jpg' ||
+          props.user.avatar
         }
-        alt={props.user}
+        alt={props.user.username}
         width={80}
         height={80}
         style={{ borderRadius: '50%' }}
       />
       <div className={styles.Content}>
         <div>
-          <span>{props.user || 'Arshia'}</span>
+          <span>{props.user.username || 'Arshia'}</span>
           <hr />
-          <span>{props.sent_at || 'May 25, 2022'}</span>
+          <span>
+            {moment(props.sentAt).format('MMM DD, YYYY') || 'May 25, 2022'}
+          </span>
         </div>
         <p>
-          {props.comment ||
+          {props.title ||
             `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus 
             cupiditate soluta, exercitationem fuga non nesciunt, 
             libero vel ad harum magnam voluptas esse voluptatum aperiam cum 
@@ -35,6 +39,12 @@ const Comment = (props) => {
       </div>
     </div>
   );
+};
+
+Comment.propTypes = {
+  title: PropTypes.string,
+  user: PropTypes.object,
+  sentAt: PropTypes.string,
 };
 
 export default Comment;

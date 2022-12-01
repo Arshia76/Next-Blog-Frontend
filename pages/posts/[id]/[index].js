@@ -3,45 +3,51 @@ import Image from 'next/image';
 import Comment from '../../../components/page/Detail/Comment';
 import Input from '../../../components/controls/Input';
 import Button from '../../../components/controls/Button';
+import { getAllPosts, getPostDetail } from '../../../lib/api/Post';
+import moment from 'jalali-moment';
 
-const PostDeatailpage = (props) => {
+const PostDetailPage = (props) => {
+  const { post } = props;
   return (
     <div className={styles.Detail}>
       <div className={styles.Content}>
         <div className={styles.Top}>
-          <h3>{props.title || 'Manage The Future Of Technology'}</h3>
-          <h6>{props.category || 'technology'}</h6>
+          <h3>{post?.title || 'Manage The Future Of Technology'}</h3>
+          <h6>{post?.category?.title || 'technology'}</h6>
         </div>
         <div className={styles.Section}>
           <div className={styles.AuthorImage}>
             <Image
               src={
-                props.authorImage ||
-                'https://www.clinicdermatech.com/images/men-service-face.jpg'
+                'https://www.clinicdermatech.com/images/men-service-face.jpg' ||
+                post.creator.avatar
               }
-              alt={props.authorName}
+              alt={post?.creator?.username}
               width={50}
               height={50}
               style={{ borderRadius: '50%' }}
               objectFit='cover'
             />
             <span className={styles.Author}>
-              {props.authorName || 'Arshia'}
+              {post?.creator?.username || 'Arshia'}
             </span>
           </div>
-          <span>{props.created_at || 'Posted On May 15, 2015'}</span>
+          <span>
+            {`Posted On ${moment(post?.createdAt).format('MMM DD, YYYY')}` ||
+              'Posted On May 15, 2015'}
+          </span>
         </div>
         <div className={styles.Image}>
           <Image
-            src={props.img || 'https://wallpapercave.com/wp/wp1877444.jpg'}
-            alt={props.title}
+            src={'https://wallpapercave.com/wp/wp1877444.jpg' || post.image}
+            alt={post?.title}
             layout='fill'
             objectFit='cover'
             style={{ borderRadius: '5px' }}
           />
         </div>
         <p>
-          {props.description ||
+          {post?.description ||
             ` Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
           eveniet consequatur est! Debitis nobis tempora hic. Illo asperiores
           amet commodi aperiam, consequatur est culpa velit nam nisi deleniti
@@ -63,11 +69,14 @@ const PostDeatailpage = (props) => {
       </div>
       <div className={styles.Comments}>
         <h5>Comments</h5>
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
+        {post?.comments.map((comment) => (
+          <Comment
+            title={comment.title}
+            user={comment.user}
+            sentAt={comment.createdAt}
+          />
+        ))}
+
         <Input
           type='text'
           kind='textarea'
@@ -87,4 +96,30 @@ const PostDeatailpage = (props) => {
   );
 };
 
-export default PostDeatailpage;
+export default PostDetailPage;
+
+export async function getStaticPaths() {
+  try {
+    const posts = await getAllPosts();
+    const paths = posts.data.map((post) => ({
+      params: { id: post.id.toString(), index: 'detail' },
+    }));
+
+    return { paths, fallback: false };
+  } catch (error) {
+    console.log(error);
+    return {
+      notFound: true,
+    };
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const post = await getPostDetail(params.id);
+  console.log(post);
+  return {
+    props: {
+      post,
+    },
+  };
+}

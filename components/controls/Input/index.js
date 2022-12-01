@@ -16,6 +16,7 @@ const Input = forwardRef((props, ref) => {
     containerClasses.push(styles[props.containerClassName]);
   if (props.errorClassName) errorClasses.push(styles[props.errorClassName]);
   if (props.labelClassName) labelClasses.push(styles[props.labelClassName]);
+
   return (
     <div className={mainContainerClasses.join(' ')}>
       {props.label && (
@@ -48,6 +49,7 @@ const Input = forwardRef((props, ref) => {
             name={props.name}
             value={props.value}
             inputMode={props.inputMode}
+            onKeyDown={props.onKeyDown}
             onClick={props.onClick}
             onInput={props.onInput}
             onFocus={props.onFocus}
@@ -71,6 +73,7 @@ const Input = forwardRef((props, ref) => {
             rows={props.rows}
             cols={props.cols}
             inputMode={props.inputMode}
+            onKeyDown={props.onKeyDown}
             onClick={props.onClick}
             onInput={props.onInput}
             onFocus={props.onFocus}
@@ -115,6 +118,7 @@ Input.defaultProps = {
   kind: 'input',
   cols: null,
   rows: null,
+  onKeyDown: (_) => null,
   onChange: (_) => null,
   onBlur: (_) => null,
   onFocus: (_) => null,
@@ -140,6 +144,7 @@ Input.propTypes = {
   kind: PropTypes.string,
   cols: PropTypes.number,
   rows: PropTypes.number,
+  onKeyDown: PropTypes.func,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,

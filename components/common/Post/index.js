@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styles from './Post.module.css';
 import { useRouter } from 'next/router';
 import Resource from '../../../public/Resource';
+import moment from 'jalali-moment';
 import {
   BsFillHeartFill,
   BsHeart,
@@ -9,6 +10,7 @@ import {
   BsFillBookmarkFill,
 } from 'react-icons/bs';
 import { FaRegComment } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 
 const Post = (props) => {
   const router = useRouter();
@@ -24,7 +26,9 @@ const Post = (props) => {
         />
       </div>
       <div className={styles.SectionOne}>
-        <span>{props.created_at || 'May 15, 2015'}</span>
+        <span>
+          {moment(props.created_at).format('MMM DD, YYYY') || 'May 15, 2015'}
+        </span>
         <span>{props.category || 'Technology'}</span>
       </div>
       <h3>{props.title || 'Manage The Future Of Technology'}</h3>
@@ -33,7 +37,11 @@ const Post = (props) => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero labore laboriosam nihil illo voluptatum, hic numquam expedita maiores maxime esse.'}
       </p>
       <div className={styles.SectionTwo}>
-        <span onClick={() => router.push(`${Resource.Routes.POST}/1`)}>
+        <span
+          onClick={() =>
+            router.push(`${Resource.Routes.POST}/${props.id}/detail`)
+          }
+        >
           Read More
         </span>
         <div>
@@ -54,11 +62,11 @@ const Post = (props) => {
       <div className={styles.SectionThree}>
         <div>
           <FaRegComment size={22} fill='#877E81' />
-          <span>23</span>
+          <span>{props.comments.length}</span>
         </div>
         <div>
           <BsHeart size={22} fill='#877E81' />
-          <span>52</span>
+          <span>{props.likes.length}</span>
         </div>
         <div>
           <BsBookmark size={22} fill='#877E81' />
@@ -66,6 +74,19 @@ const Post = (props) => {
       </div>
     </div>
   );
+};
+
+Post.propTypes = {
+  id: PropTypes.string,
+  img: PropTypes.string,
+  title: PropTypes.string,
+  created_at: PropTypes.string,
+  category: PropTypes.string,
+  description: PropTypes.string,
+  authorImage: PropTypes.string,
+  authorName: PropTypes.string,
+  comments: PropTypes.array,
+  likes: PropTypes.array,
 };
 
 export default Post;

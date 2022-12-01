@@ -6,14 +6,31 @@ import styles from './Header.module.css';
 import Resource from '../../../public/Resource';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useSearchPosts } from '../../../lib/query/Post';
 
 const Header = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
 
+  const onSuccess = (data) => {
+    console.log(data);
+    router.push(Resource.Routes.POST + '?search=' + search);
+  };
+
+  const { data, refetch } = useSearchPosts(search || '', onSuccess);
+
   const onChange = (e) => {
     setSearch(e.target.value);
   };
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' && search !== '') {
+      e.preventDefault();
+      refetch();
+      console.log('click');
+    }
+  };
+
   return (
     <header className={styles.Header}>
       <ul>
@@ -54,6 +71,7 @@ const Header = () => {
           trailingImg={Resource.Svg.SEARCH_SVG}
           imgWidth={22}
           imgHeight={22}
+          onKeyDown={handleSearch}
         />
       </div>
     </header>
