@@ -13,7 +13,6 @@ const Auth = () => {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      localStorage.setItem('next-blog-token', data.access_token);
       router.replace(Resource.Routes.HOME);
     }
   }, [status, router]);

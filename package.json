@@ -23,6 +23,7 @@
     "react-select": "^5.6.0",
     "react-toastify": "^9.1.1",
     "use-file-picker": "^1.5.1",
+    "v8": "^0.1.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

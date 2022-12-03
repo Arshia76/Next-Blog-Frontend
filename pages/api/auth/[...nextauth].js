@@ -5,6 +5,7 @@ import { localLogin } from '../../../lib/api/Auth';
 export const authOptions = {
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60,
   },
   callbacks: {
     async jwt({ token, account, user }) {
