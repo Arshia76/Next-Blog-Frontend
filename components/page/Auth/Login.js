@@ -2,25 +2,38 @@ import styles from './Auth.module.css';
 import Input from '../../controls/Input';
 import Button from '../../controls/Button';
 import Side from './Side';
-import { useLocalLogin } from '../../../lib/query/Auth';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
+import Resource from '../../../public/Resource';
 
 const Login = (props) => {
-  const onSuccess = (data) => {
-    console.log(data);
-  };
+  const router = useRouter();
 
-  const onError = (err) => {
-    console.log(err);
-  };
+  const Login = async (values) => {
+    // setLoading(true);
+    const res = await signIn('credentials', {
+      ...values,
+      redirect: false,
+    });
+    console.log(res);
 
-  const { mutate } = useLocalLogin(onSuccess, onError);
+    if (res.ok) {
+      router.replace(Resource.Routes.HOME);
+      // toast.success('Logged in successfuly');
+      // setLoading(false);
+    } else {
+      console.log('failed');
+      // toast.error(res.error);
+      // setLoading(false);
+    }
+  };
 
   const onSubmit = (values, { resetForm }) => {
     console.log(values);
 
-    mutate(values);
+    Login(values);
   };
 
   const validationSchema = yup.object({

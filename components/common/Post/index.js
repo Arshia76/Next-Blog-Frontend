@@ -62,11 +62,11 @@ const Post = (props) => {
       <div className={styles.SectionThree}>
         <div>
           <FaRegComment size={22} fill='#877E81' />
-          <span>{props.comments.length}</span>
+          <span>{props?.comments?.length || 0}</span>
         </div>
         <div>
           <BsHeart size={22} fill='#877E81' />
-          <span>{props.likes.length}</span>
+          <span>{props?.likes?.length || 0}</span>
         </div>
         <div>
           <BsBookmark size={22} fill='#877E81' />

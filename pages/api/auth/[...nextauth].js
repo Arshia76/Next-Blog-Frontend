@@ -6,22 +6,21 @@ export const authOptions = {
   session: {
     strategy: 'jwt',
   },
-  // callbacks: {
-  //   async jwt({ token, account, user }) {
-  //     // Persist the OAuth access_token to the token right after signin
-  //     if (account) {
-  //       token.id = user.id;
-  //       token.username = user.username;
-  //     }
-  //     return token;
-  //   },
-  //   async session({ session, token }) {
-  //     // Send properties to the client, like an access_token from a provider.
-  //     session.id = token.id;
-  //     session.username = token.username;
-  //     return session;
-  //   },
-  // },
+  callbacks: {
+    async jwt({ token, account, user }) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        console.log(user);
+        token.access_token = user.data.access_token;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.access_token = token.access_token;
+      return session;
+    },
+  },
   providers: [
     CredentialsProvider({
       type: 'credentials',
@@ -29,9 +28,9 @@ export const authOptions = {
       async authorize(credentials, req) {
         const body = req.body;
 
-        const access_token = await localLogin(body);
+        const data = await localLogin(body);
         return {
-          access_token,
+          data,
         };
       },
     }),

@@ -1,0 +1,14 @@
+.Header {
+  font-size: 45px;
+  font-weight: bold;
+  margin-bottom: 18px;
+  border-bottom: 4px solid #e9e9eb;
+  padding-bottom: 8px;
+  margin: 20px;
+}
+
+.Posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  padding: 25px;
+}

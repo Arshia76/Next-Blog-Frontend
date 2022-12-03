@@ -8,7 +8,14 @@ import { useGetAllCategories } from '../../lib/query/Category';
 const PostsPage = (props) => {
   const { posts } = props;
   const [category, setCategory] = useState('');
-  const { data: categoryPosts, refetch } = useGetPostsOfCategory(category);
+  // const onGetCategoryPostsSuccess = (data) => {
+  //   console.log(data);
+  //   setData(data);
+  // };
+  const { data: categoryPosts, refetch } = useGetPostsOfCategory(
+    category,
+    posts
+  );
   const { data: categories } = useGetAllCategories();
 
   useEffect(() => {
@@ -22,45 +29,26 @@ const PostsPage = (props) => {
       <div className={styles.PostsContainer}>
         <h6 className={styles.PostsHeader}>Posts</h6>
         <div className={styles.Posts}>
-          {categoryPosts && categoryPosts.length
-            ? categoryPosts.data.map((post) => {
-                return (
-                  <Post
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    description={post.description}
-                    created_at={post.createdAt}
-                    category={post.category?.title}
-                    img={
-                      'https://wallpapercave.com/wp/wp1877444.jpg' || post.image
-                    }
-                    authorImage={post.creator?.avatar}
-                    authorName={post.creator?.username}
-                    comments={post.comments}
-                    likes={post.likes}
-                  />
-                );
-              })
-            : posts.data.map((post) => {
-                return (
-                  <Post
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    description={post.description}
-                    created_at={post.createdAt}
-                    category={post.category?.title}
-                    img={
-                      'https://wallpapercave.com/wp/wp1877444.jpg' || post.image
-                    }
-                    authorImage={post.creator?.avatar}
-                    authorName={post.creator?.username}
-                    comments={post.comments}
-                    likes={post.likes}
-                  />
-                );
-              })}
+          {categoryPosts &&
+            categoryPosts.data.map((post) => {
+              return (
+                <Post
+                  key={post.id}
+                  id={post.id}
+                  title={post.title}
+                  description={post.description}
+                  created_at={post.createdAt}
+                  category={post.category?.title}
+                  img={
+                    'https://wallpapercave.com/wp/wp1877444.jpg' || post.image
+                  }
+                  authorImage={post.creator?.avatar}
+                  authorName={post.creator?.username}
+                  comments={post.comments}
+                  likes={post.likes}
+                />
+              );
+            })}
         </div>
       </div>
       <div className={styles.Categories}>
