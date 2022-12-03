@@ -34,7 +34,7 @@ const ProfilePage = () => {
           </span>
         </div>
       </div>
-      <Edit />
+      <Edit userData={data} />
     </div>
   );
 };
