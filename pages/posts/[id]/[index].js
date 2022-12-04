@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styles from '../../../styles/Detail.module.css';
 import Image from 'next/image';
 import Comment from '../../../components/page/Detail/Comment';
@@ -5,49 +6,86 @@ import Input from '../../../components/controls/Input';
 import Button from '../../../components/controls/Button';
 import { getAllPosts, getPostDetail } from '../../../lib/api/Post';
 import moment from 'jalali-moment';
+import { useCommentPost, useGetPostDetail } from '../../../lib/query/Post';
+import { toast } from 'react-toastify';
+import { useQueryClient } from 'react-query';
+import { GET_POST_DETAIL } from '../../../lib/query/keys';
 
 const PostDetailPage = (props) => {
   const { post } = props;
+
+  const queryClient = useQueryClient();
+
+  const [comment, setComment] = useState('');
+
+  const onCommentSuccess = () => {
+    toast.success('Commented Successfully');
+    queryClient.invalidateQueries(GET_POST_DETAIL);
+    setComment('');
+  };
+
+  const onCommentError = (err) => {
+    toast.error(err.response.data.message);
+  };
+
+  const { mutate: commentPost } = useCommentPost(
+    onCommentSuccess,
+    onCommentError
+  );
+
+  const handleCommentPost = (e) => {
+    e.preventDefault();
+    if (!comment) {
+      toast.error('Please Enter Your Commnet');
+      return;
+    }
+
+    commentPost([post.id, { title: comment }]);
+  };
+
+  const { data: postData } = useGetPostDetail(post.id, post);
+
   return (
     <div className={styles.Detail}>
       <div className={styles.Content}>
         <div className={styles.Top}>
-          <h3>{post?.title || 'Manage The Future Of Technology'}</h3>
-          <h6>{post?.category?.title || 'technology'}</h6>
+          <h3>{postData?.title || 'Manage The Future Of Technology'}</h3>
+          <h6>{postData?.category?.title || 'technology'}</h6>
         </div>
         <div className={styles.Section}>
           <div className={styles.AuthorImage}>
             <Image
               src={
                 'https://www.clinicdermatech.com/images/men-service-face.jpg' ||
-                post.creator.avatar
+                postData.creator.avatar
               }
-              alt={post?.creator?.username}
+              alt={postData?.creator?.username}
               width={50}
               height={50}
               style={{ borderRadius: '50%' }}
               objectFit='cover'
             />
             <span className={styles.Author}>
-              {post?.creator?.username || 'Arshia'}
+              {postData?.creator?.username || 'Arshia'}
             </span>
           </div>
           <span>
-            {`Posted On ${moment(post?.createdAt).format('MMM DD, YYYY')}` ||
-              'Posted On May 15, 2015'}
+            {`Posted On ${moment(postData?.createdAt).format(
+              'MMM DD, YYYY'
+            )}` || 'Posted On May 15, 2015'}
           </span>
         </div>
         <div className={styles.Image}>
           <Image
-            src={'https://wallpapercave.com/wp/wp1877444.jpg' || post.image}
-            alt={post?.title}
+            src={'https://wallpapercave.com/wp/wp1877444.jpg' || postData.image}
+            alt={postData?.title}
             layout='fill'
             objectFit='cover'
             style={{ borderRadius: '5px' }}
           />
         </div>
         <p>
-          {post?.description ||
+          {postData?.description ||
             ` Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
           eveniet consequatur est! Debitis nobis tempora hic. Illo asperiores
           amet commodi aperiam, consequatur est culpa velit nam nisi deleniti
@@ -69,7 +107,7 @@ const PostDetailPage = (props) => {
       </div>
       <div className={styles.Comments}>
         <h5>Comments</h5>
-        {post?.comments.map((comment) => (
+        {postData?.comments.map((comment) => (
           <Comment
             title={comment.title}
             user={comment.user}
@@ -85,12 +123,18 @@ const PostDetailPage = (props) => {
           labelClassName='Comment'
           mainContainerClassName='Comment'
           name='comment'
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
           placeholder='Write your comment....'
           label='Write your comment'
           rows={6}
           cols={4}
         />
-        <Button title={'Confirm'} className='Comment' />
+        <Button
+          title={'Confirm'}
+          className='Comment'
+          onClick={handleCommentPost}
+        />
       </div>
     </div>
   );

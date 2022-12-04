@@ -5,6 +5,7 @@ import { getAllPosts } from '../lib/api/Post';
 
 const HomePage = (props) => {
   const { posts } = props;
+  console.log(posts.data);
   return (
     <div>
       <Hero />
@@ -20,7 +21,7 @@ const HomePage = (props) => {
                 description={post.description}
                 created_at={post.createdAt}
                 category={post.category?.title}
-                img={'https://wallpapercave.com/wp/wp1877444.jpg' || post.image}
+                img={`${process.env.NEXT_PUBLIC_URL}${post.image}`}
                 authorImage={post.creator?.avatar}
                 authorName={post.creator?.username}
                 comments={post.comments}
