@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import styles from './Post.module.css';
 import { useRouter } from 'next/router';
@@ -11,15 +13,45 @@ import {
 } from 'react-icons/bs';
 import { FaRegComment } from 'react-icons/fa';
 import PropTypes from 'prop-types';
+import {
+  useHandleBookmarkPost,
+  useHandleLikePost,
+} from '../../../lib/query/Post';
 
-const Post = (props) => {
+const Post = ({ data }) => {
+  const { data: user } = useSession();
   const router = useRouter();
+  const [post, setPost] = useState(data);
+
+  const onLikeSuccess = (data) => {
+    console.log(data);
+    setPost(data);
+  };
+
+  const onBookmarkSuccess = (data) => {
+    setPost(data);
+  };
+
+  const { mutate: handleLike } = useHandleLikePost(onLikeSuccess);
+  const { mutate: handleBookmark } = useHandleBookmarkPost(onBookmarkSuccess);
+
+  const handleLikePost = () => {
+    handleLike(post.id);
+  };
+
+  const handleBookmarkPost = () => {
+    handleBookmark(post.id);
+  };
+
   return (
     <div className={styles.Post}>
       <div className={styles.Image}>
         <Image
-          src={props.img || 'https://wallpapercave.com/wp/wp1877444.jpg'}
-          alt={props.title || 'Manage The Future Of Technology'}
+          src={
+            `${process.env.NEXT_PUBLIC_URL}${post.image}` ||
+            'https://wallpapercave.com/wp/wp1877444.jpg'
+          }
+          alt={post.title || 'Manage The Future Of Technology'}
           layout='fill'
           objectFit='cover'
           style={{ borderRadius: '5px' }}
@@ -27,19 +59,19 @@ const Post = (props) => {
       </div>
       <div className={styles.SectionOne}>
         <span>
-          {moment(props.created_at).format('MMM DD, YYYY') || 'May 15, 2015'}
+          {moment(post.createdAt).format('MMM DD, YYYY') || 'May 15, 2015'}
         </span>
-        <span>{props.category || 'Technology'}</span>
+        <span>{post.category.title || 'Technology'}</span>
       </div>
-      <h3>{props.title || 'Manage The Future Of Technology'}</h3>
+      <h3>{post.title || 'Manage The Future Of Technology'}</h3>
       <p>
-        {props.description ||
+        {post.description ||
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero labore laboriosam nihil illo voluptatum, hic numquam expedita maiores maxime esse.'}
       </p>
       <div className={styles.SectionTwo}>
         <span
           onClick={() =>
-            router.push(`${Resource.Routes.POST}/${props.id}/detail`)
+            router.push(`${Resource.Routes.POST}/${post.id}/detail`)
           }
         >
           Read More
@@ -47,29 +79,37 @@ const Post = (props) => {
         <div>
           <Image
             src={
-              props.authorImg ||
+              `${process.env.NEXT_PUBLIC_URL}${post?.creator?.avatar}` ||
               'https://www.clinicdermatech.com/images/men-service-face.jpg'
             }
-            alt={props.authorName || 'Arshia'}
+            alt={post?.creator?.username || 'Arshia'}
             width={45}
             height={45}
             className={styles.AuthorImage}
             objectFit='contain'
           />
-          <span>{props.authorName || 'Arshia'}</span>
+          <span>{post?.creator?.username || 'Arshia'}</span>
         </div>
       </div>
       <div className={styles.SectionThree}>
         <div>
           <FaRegComment size={22} fill='#877E81' />
-          <span>{props?.comments?.length || 0}</span>
+          <span>{post?.comments?.length || 0}</span>
         </div>
-        <div>
-          <BsHeart size={22} fill='#877E81' />
-          <span>{props?.likes?.length || 0}</span>
+        <div onClick={handleLikePost}>
+          {post?.likes?.some((like) => like.user === user?.userId) ? (
+            <BsFillHeartFill size={22} fill='#877E81' />
+          ) : (
+            <BsHeart size={22} fill='#877E81' />
+          )}
+          <span>{post?.likes?.length || 0}</span>
         </div>
-        <div>
-          <BsBookmark size={22} fill='#877E81' />
+        <div onClick={handleBookmarkPost}>
+          {post.bookmarkedByUsers.some((u) => u.id === user?.userId) ? (
+            <BsFillBookmarkFill size={22} fill='#877E81' />
+          ) : (
+            <BsBookmark size={22} fill='#877E81' />
+          )}
         </div>
       </div>
     </div>
@@ -77,16 +117,7 @@ const Post = (props) => {
 };
 
 Post.propTypes = {
-  id: PropTypes.string,
-  img: PropTypes.string,
-  title: PropTypes.string,
-  created_at: PropTypes.string,
-  category: PropTypes.string,
-  description: PropTypes.string,
-  authorImage: PropTypes.string,
-  authorName: PropTypes.string,
-  comments: PropTypes.array,
-  likes: PropTypes.array,
+  data: PropTypes.object,
 };
 
 export default Post;

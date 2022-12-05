@@ -13,21 +13,8 @@ const HomePage = (props) => {
         <h6 className={styles.LatestPosts}>Latest Posts</h6>
         <div className={styles.Home}>
           {posts.data.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                description={post.description}
-                created_at={post.createdAt}
-                category={post.category?.title}
-                img={`${process.env.NEXT_PUBLIC_URL}${post.image}`}
-                authorImage={post.creator?.avatar}
-                authorName={post.creator?.username}
-                comments={post.comments}
-                likes={post.likes}
-              />
-            );
+            console.log(post);
+            return <Post key={post.id} data={post} />;
           })}
         </div>
       </div>

@@ -21,9 +21,9 @@ const UserPostsPage = () => {
   const { refetch: refetchUserPosts } = useGetPostsOfUser(onSuccess);
 
   useEffect(() => {
-    if (router.query.search.toString() === 'userPosts') {
+    if (router?.query?.search?.toString() === 'userPosts') {
       refetchUserPosts();
-    } else if (router.query.search.toString() === 'bookmark') {
+    } else if (router?.query?.search?.toString() === 'bookmark') {
       refetchBookmark();
     }
   }, [router.query]);
@@ -31,30 +31,16 @@ const UserPostsPage = () => {
   return (
     <div className={styles.UserPostContainer}>
       <h3 className={styles.Header}>
-        {router.query.search === 'bookmark'
+        {router.query && router.query.search === 'bookmark'
           ? 'BookmarkedPosts'
-          : router.query.search === 'userPosts'
+          : router.query && router.query.search === 'userPosts'
           ? 'UserPosts'
           : null}
       </h3>
       <div className={styles.Posts}>
         {posts && posts.data && posts.data.length ? (
           posts.data.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                description={post.description}
-                created_at={post.createdAt}
-                category={post.category?.title}
-                img={'https://wallpapercave.com/wp/wp1877444.jpg' || post.image}
-                authorImage={post.creator?.avatar}
-                authorName={post.creator?.username}
-                comments={post.comments}
-                likes={post.likes}
-              />
-            );
+            return <Post key={post.id} data={post} />;
           })
         ) : (
           <div>no data to show</div>

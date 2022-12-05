@@ -13,12 +13,14 @@ export const authOptions = {
       if (account) {
         console.log(user);
         token.access_token = user.data.access_token;
+        token.userId = user.data.id;
       }
       return token;
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
       session.access_token = token.access_token;
+      session.userId = token.userId;
       return session;
     },
   },
