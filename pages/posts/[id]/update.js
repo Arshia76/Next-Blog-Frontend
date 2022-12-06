@@ -9,6 +9,7 @@ import {
   useUpdatePost,
 } from '../../../lib/query/Post';
 import { useGetAllCategories } from '../../../lib/query/Category';
+import { useEffect } from 'react';
 import { getPostDetail } from '../../../lib/api/Post';
 import { useFormik } from 'formik';
 import styles from '../../../styles/PostAction.module.css';
@@ -16,8 +17,21 @@ import { toast } from 'react-toastify';
 import { useQueryClient } from 'react-query';
 import { GET_POST_DETAIL } from '../../../lib/query/keys';
 import PrivateRoute from '../../../components/common/PrivateRoute';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import Resource from '../../../public/Resource';
 
 const UpdatePostpage = ({ post }) => {
+  const router = useRouter();
+
+  const { userId } = useSession();
+
+  useEffect(() => {
+    if (post.creator.id !== userId) {
+      router.push(Resource.Routes.HOME);
+    }
+  }, [post]);
+
   const queryClient = useQueryClient();
 
   const { data } = useGetAllCategories();
@@ -92,6 +106,11 @@ const UpdatePostpage = ({ post }) => {
     },
     onSubmit,
   });
+
+  if (post.creator.id !== userId) {
+    router.push(Resource.Routes.HOME);
+    return;
+  }
 
   return (
     <div className={styles.Action}>

@@ -31,23 +31,7 @@ const PostsPage = (props) => {
         <div className={styles.Posts}>
           {categoryPosts &&
             categoryPosts.data.map((post) => {
-              return (
-                <Post
-                  key={post.id}
-                  id={post.id}
-                  title={post.title}
-                  description={post.description}
-                  created_at={post.createdAt}
-                  category={post.category?.title}
-                  img={
-                    'https://wallpapercave.com/wp/wp1877444.jpg' || post.image
-                  }
-                  authorImage={post.creator?.avatar}
-                  authorName={post.creator?.username}
-                  comments={post.comments}
-                  likes={post.likes}
-                />
-              );
+              return <Post key={post.id} data={post} />;
             })}
         </div>
       </div>

@@ -17,6 +17,7 @@ import {
   useHandleBookmarkPost,
   useHandleLikePost,
 } from '../../../lib/query/Post';
+import { toast } from 'react-toastify';
 
 const Post = ({ data }) => {
   const { data: user } = useSession();
@@ -28,12 +29,23 @@ const Post = ({ data }) => {
     setPost(data);
   };
 
+  const onLikeError = (err) => {
+    toast.error(err.response.data.message);
+  };
+
   const onBookmarkSuccess = (data) => {
     setPost(data);
   };
 
-  const { mutate: handleLike } = useHandleLikePost(onLikeSuccess);
-  const { mutate: handleBookmark } = useHandleBookmarkPost(onBookmarkSuccess);
+  const onBookmarkError = (err) => {
+    toast.error(err.response.data.message);
+  };
+
+  const { mutate: handleLike } = useHandleLikePost(onLikeSuccess, onLikeError);
+  const { mutate: handleBookmark } = useHandleBookmarkPost(
+    onBookmarkSuccess,
+    onBookmarkError
+  );
 
   const handleLikePost = () => {
     handleLike(post.id);
@@ -97,8 +109,10 @@ const Post = ({ data }) => {
           <span>{post?.comments?.length || 0}</span>
         </div>
         <div onClick={handleLikePost}>
-          {post?.likes?.some(
-            (like) => like.user || like.user.id === user?.userId
+          {post?.likes?.some((like) =>
+            like?.user?.id
+              ? like.user.id === user?.userId
+              : like.user === user?.userId
           ) ? (
             <BsFillHeartFill size={22} fill='#877E81' />
           ) : (
