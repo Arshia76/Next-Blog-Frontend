@@ -1,26 +1,80 @@
 import styles from './Auth.module.css';
 import Side from './Side';
+import File from '../../common/File';
 import Input from '../../controls/Input';
 import Button from '../../controls/Button';
 import { useLocalRegister } from '../../../lib/query/Auth';
+import { useUploadAvatar } from '../../../lib/query/User';
+import { useFilePicker } from 'use-file-picker';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
+import { signIn } from 'next-auth/react';
 
 const Register = (props) => {
-  const onSuccess = (data) => {
+  const onSuccessRegister = async () => {
+    toast.success('Registered Successfully');
+    const res = await signIn('credentials', {
+      username: formik.values.username,
+      password: formik.values.password,
+      redirect: false,
+    });
+    console.log(res);
+
+    if (res.ok) {
+      router.replace(Resource.Routes.HOME);
+      toast.success('Logged in successfuly');
+    } else {
+      console.log('failed');
+      toast.error('Error In Login');
+    }
+  };
+
+  const onErrorRegister = (err) => {
+    toast.error(err.response.data.message || 'Error In Login');
+  };
+
+  const onSuccessUpload = (data) => {
     console.log(data);
+    toast.success('upload');
+    const userData = {
+      username: formik.values.username,
+      password: formik.values.password,
+      phoneNumber: formik.values.phoneNumber,
+      avatar: data.path,
+    };
+    register(userData);
   };
 
-  const onError = (err) => {
-    console.log(err);
+  const onErrorUpload = (err) => {
+    toast.error(err.response.data.message || 'Error In Upload');
   };
 
-  const { mutate } = useLocalRegister(onSuccess, onError);
+  const { mutate: register } = useLocalRegister(
+    onSuccessRegister,
+    onErrorRegister
+  );
+  const { mutate: upload } = useUploadAvatar(onSuccessUpload, onErrorUpload);
 
-  const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+  const [openFileSelector, { plainFiles }] = useFilePicker({
+    accept: 'image/*',
+  });
 
-    mutate(values);
+  const onSubmit = (values) => {
+    const userData = {
+      username: values.username,
+      phoneNumber: values.phoneNumber,
+      password: values.password,
+    };
+
+    if (plainFiles.length) {
+      const form = new FormData();
+      form.append('avatar', plainFiles[0]);
+      upload(form);
+      return;
+    }
+
+    register(userData);
   };
 
   const validationSchema = yup.object({
@@ -64,7 +118,7 @@ const Register = (props) => {
           errorClassName='Auth'
           placeholder='phoneNumber'
           name='phoneNumber'
-          value={formik.values.username}
+          value={formik.values.phoneNumber}
           onChange={formik.handleChange}
           error={
             formik.errors.phoneNumber && formik.touched.phoneNumber
@@ -79,13 +133,18 @@ const Register = (props) => {
           errorClassName='Auth'
           placeholder='password'
           name='password'
-          value={formik.values.username}
+          value={formik.values.password}
           onChange={formik.handleChange}
           error={
             formik.errors.password && formik.touched.password
               ? formik.errors.password
               : null
           }
+        />
+        <File
+          onClick={openFileSelector}
+          content={plainFiles}
+          showPreview={true}
         />
         <span onClick={() => props.setState('Login')}>
           Have an account? <strong>Login</strong>
