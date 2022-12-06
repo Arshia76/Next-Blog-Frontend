@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import styles from './File.module.css';
 
 const File = (props) => {
-  console.log(props.content);
   return (
     <div className={styles.FileContainer} onClick={props.onClick}>
       <div className={styles.FileName}>

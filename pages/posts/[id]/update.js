@@ -3,37 +3,100 @@ import Button from '../../../components/controls/Button';
 import Select from '../../../components/controls/Select';
 import File from '../../../components/common/File';
 import { useFilePicker } from 'use-file-picker';
+import {
+  useUpdatePostImage,
+  useGetPostDetail,
+  useUpdatePost,
+} from '../../../lib/query/Post';
+import { useGetAllCategories } from '../../../lib/query/Category';
+import { getPostDetail } from '../../../lib/api/Post';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import styles from '../../../styles/PostAction.module.css';
+import { toast } from 'react-toastify';
+import { useQueryClient } from 'react-query';
+import { GET_POST_DETAIL } from '../../../lib/query/keys';
+import PrivateRoute from '../../../components/common/PrivateRoute';
 
-const CreatePostpage = () => {
-  const [openFileSelector, { filesContent, plainFiles, loading }] =
-    useFilePicker({
-      accept: 'image/*',
-    });
+const UpdatePostpage = ({ post }) => {
+  const queryClient = useQueryClient();
 
-  const validationSchema = yup.object({
-    title: yup.string().required('Please Enter The Title'),
-    description: yup.string().required('Please Enter The Description'),
-    category: yup.string().required('Please Enter The Category'),
-    image: yup.string().required('Please Enter The Image'),
+  const { data } = useGetAllCategories();
+
+  const { data: postDetail } = useGetPostDetail(post.id, post);
+
+  const onUpdateSuccess = () => {
+    toast.success('post updated successfully');
+    formik.resetForm();
+    queryClient.invalidateQueries(GET_POST_DETAIL);
+  };
+
+  const onUpdateError = (err) => {
+    toast.error('Error on Post update');
+    console.log(err);
+  };
+
+  const { mutate: updatePost } = useUpdatePost(onUpdateSuccess, onUpdateError);
+
+  const [openFileSelector, { plainFiles }] = useFilePicker({
+    accept: 'image/*',
   });
 
+  const onSuccessUpload = (data) => {
+    console.log(data);
+    toast.success('upload');
+    const postData = {
+      title: values.title,
+      description: values.description,
+      category: values.category?.value,
+      image: data.path,
+    };
+    updatePost([postDetail.id, postData]);
+  };
+
+  const onErrorUpload = (err) => {
+    console.log(err.respsone.data);
+  };
+
+  const { mutate: updatePostImage } = useUpdatePostImage(
+    onSuccessUpload,
+    onErrorUpload
+  );
+
+  const onSubmit = (values) => {
+    const postData = {
+      title: values.title,
+      description: values.description,
+      category: values.category?.value,
+    };
+
+    if (plainFiles.length) {
+      const form = new FormData();
+      form.append('postImage', plainFiles[0]);
+      updatePostImage([postDetail.id, form]);
+      return;
+    }
+
+    updatePost([postDetail.id, postData]);
+  };
+
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: '',
-      description: '',
-      category: '',
-      image: '',
+      title: postDetail && postDetail.title,
+      description: postDetail && postDetail.description,
+      category: postDetail && {
+        label: postDetail.category.title,
+        value: postDetail.category.id,
+      },
+      image: postDetail && process.env.NEXT_PUBLIC_URL + postDetail.image,
     },
-    validationSchema,
+    onSubmit,
   });
 
   return (
     <div className={styles.Action}>
       <h5>Update Post</h5>
-      <form onSubmit={formik.onSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <Input
           type='text'
           className='PostInput'
@@ -44,7 +107,6 @@ const CreatePostpage = () => {
           label='title'
           value={formik.values.title}
           onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
           error={
             formik.errors.title && formik.touched.title
               ? formik.errors.title
@@ -57,8 +119,17 @@ const CreatePostpage = () => {
           labelClassName='PostSelectLabel'
           mainContainerClassname='PostSelectContainer'
           label='Category'
-          onChange={(category) => formik.setFieldValue('category', category)}
-          onBlur={formik.handleBlur}
+          value={formik.values.category}
+          options={
+            data &&
+            data.map((category) => ({
+              label: category.title,
+              value: category.id,
+            }))
+          }
+          onChange={(selectedField) =>
+            formik.setFieldValue('category', selectedField)
+          }
           error={
             formik.errors.category && formik.touched.category
               ? formik.errors.category
@@ -76,7 +147,6 @@ const CreatePostpage = () => {
           label='description'
           value={formik.values.description}
           onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
           error={
             formik.errors.description && formik.touched.description
               ? formik.errors.description
@@ -89,7 +159,7 @@ const CreatePostpage = () => {
           showPreview={true}
         />
         <div className={styles.Buttons}>
-          <Button title='Create' className='PostButton' />
+          <Button title='Create' className='PostButton' type='submit' />
           <Button title='Cancel' className='PostButton-Cancel' />
         </div>
       </form>
@@ -97,4 +167,21 @@ const CreatePostpage = () => {
   );
 };
 
-export default CreatePostpage;
+export default PrivateRoute(UpdatePostpage);
+
+export async function getServerSideProps({ params }) {
+  try {
+    const post = await getPostDetail(params.id);
+
+    return {
+      props: {
+        post,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      notFound: true,
+    };
+  }
+}

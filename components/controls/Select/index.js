@@ -51,7 +51,7 @@ Select.defaultProps = {
   isLoading: false,
   isMulti: false,
   autoFocus: false,
-  menuIsOpen: true,
+  // menuIsOpen: false,
   closeMenuOnSelect: true,
   options: [],
   defaultValue: null,

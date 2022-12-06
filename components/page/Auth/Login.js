@@ -30,7 +30,7 @@ const Login = (props) => {
     }
   };
 
-  const onSubmit = (values, { resetForm }) => {
+  const onSubmit = (values) => {
     console.log(values);
 
     Login(values);

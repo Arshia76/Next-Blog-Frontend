@@ -97,7 +97,9 @@ const Post = ({ data }) => {
           <span>{post?.comments?.length || 0}</span>
         </div>
         <div onClick={handleLikePost}>
-          {post?.likes?.some((like) => like.user === user?.userId) ? (
+          {post?.likes?.some(
+            (like) => like.user || like.user.id === user?.userId
+          ) ? (
             <BsFillHeartFill size={22} fill='#877E81' />
           ) : (
             <BsHeart size={22} fill='#877E81' />
