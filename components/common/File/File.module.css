@@ -6,16 +6,19 @@
   cursor: pointer;
   width: fit-content;
   max-width: 100%;
+  margin-right: auto;
 }
 
 .FileName {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .FileName span {
   margin-left: 5px;
   font-size: 18px;
+  margin-bottom: 0;
 }
 
 .FileImage {

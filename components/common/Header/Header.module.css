@@ -4,6 +4,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;
 }
 
 .Header ul {
@@ -39,6 +40,7 @@
 .Header ul div {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .Header .Input {
@@ -47,4 +49,53 @@
   padding: 12px 50px;
   display: flex;
   justify-content: flex-end;
+}
+
+.Open {
+  animation: moveLeft 500ms ease forwards;
+}
+
+@media (max-width: 768px) {
+  .Close {
+    animation: moveRight 500ms ease forwards;
+  }
+
+  .Header ul div {
+    transform: translateX(400px);
+    flex-direction: column;
+    position: fixed;
+    right: 0;
+    background-color: #121823;
+    top: 0;
+    height: 100vh;
+    width: 60vw;
+  }
+
+  .Header ul div li {
+    padding: 20px;
+  }
+
+  .Header .Input {
+    justify-content: center;
+  }
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(400px);
+  }
+}
+
+@keyframes moveLeft {
+  0% {
+    transform: translateX(400px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

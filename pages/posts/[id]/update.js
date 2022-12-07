@@ -24,10 +24,10 @@ import Resource from '../../../public/Resource';
 const UpdatePostpage = ({ post }) => {
   const router = useRouter();
 
-  const { userId } = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
-    if (post.creator.id !== userId) {
+    if (post.creator.id !== session?.userId) {
       router.push(Resource.Routes.HOME);
     }
   }, [post]);
@@ -107,7 +107,7 @@ const UpdatePostpage = ({ post }) => {
     onSubmit,
   });
 
-  if (post.creator.id !== userId) {
+  if (post.creator.id !== session?.userId) {
     router.push(Resource.Routes.HOME);
     return;
   }
@@ -162,6 +162,7 @@ const UpdatePostpage = ({ post }) => {
           errorClassName='PostInput'
           labelClassName='PostInput'
           mainContainerClassName='PostInput'
+          rows={7}
           name='description'
           label='description'
           value={formik.values.description}
@@ -178,7 +179,7 @@ const UpdatePostpage = ({ post }) => {
           showPreview={true}
         />
         <div className={styles.Buttons}>
-          <Button title='Create' className='PostButton' type='submit' />
+          <Button title='Update' className='PostButton' type='submit' />
           <Button title='Cancel' className='PostButton-Cancel' />
         </div>
       </form>

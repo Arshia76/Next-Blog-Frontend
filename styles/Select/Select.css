@@ -6,7 +6,8 @@
   width: 100%;
   margin-bottom: 15px;
   margin-top: 8px;
-  font-size: 16px;
+  font-size: 18px;
+  color: rgb(102, 52, 52);
 }
 
 .PostSelectLabel {
@@ -20,4 +21,9 @@
 .PostSelect__control--is-focused {
   box-shadow: none !important;
   border-color: #e0e4e8 !important;
+}
+
+.PostSelect.Error {
+  font-size: 16px;
+  color: rgb(189, 33, 33);
 }

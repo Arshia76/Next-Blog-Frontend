@@ -130,6 +130,7 @@ const CreatePostpage = () => {
           mainContainerClassName='PostInput'
           name='description'
           label='description'
+          rows={7}
           value={formik.values.description}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}

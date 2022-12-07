@@ -2,8 +2,10 @@ import Image from 'next/image';
 import Resource from '../../../../public/Resource';
 import styles from './Hero.module.css';
 import Button from '../../../controls/Button';
+import { useRouter } from 'next/router';
 
 const Hero = () => {
+  const router = useRouter();
   return (
     <div className={styles.Hero}>
       <Image
@@ -17,7 +19,11 @@ const Hero = () => {
         <h1>
           With <strong>Next Blog</strong>
         </h1>
-        <Button title={'Start Writing'} className='Hero' />
+        <Button
+          title={'Start Writing'}
+          className='Hero'
+          onClick={() => router.push(`${Resource.Routes.POST}/create`)}
+        />
       </div>
     </div>
   );

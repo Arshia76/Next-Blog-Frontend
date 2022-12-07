@@ -10,9 +10,16 @@ import { useCommentPost, useGetPostDetail } from '../../../lib/query/Post';
 import { toast } from 'react-toastify';
 import { useQueryClient } from 'react-query';
 import { GET_POST_DETAIL } from '../../../lib/query/keys';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import Resource from '../../../public/Resource';
 
 const PostDetailPage = (props) => {
+  const router = useRouter();
+
   const { post } = props;
+
+  const { status, data } = useSession();
 
   const queryClient = useQueryClient();
 
@@ -55,10 +62,7 @@ const PostDetailPage = (props) => {
         <div className={styles.Section}>
           <div className={styles.AuthorImage}>
             <Image
-              src={
-                'https://www.clinicdermatech.com/images/men-service-face.jpg' ||
-                postData.creator.avatar
-              }
+              src={process.env.NEXT_PUBLIC_URL + postData?.creator?.avatar}
               alt={postData?.creator?.username}
               width={50}
               height={50}
@@ -104,6 +108,18 @@ const PostDetailPage = (props) => {
           distinctio veniam dolor saepe repudiandae aliquid expedita accusamus
           voluptatem eaque facilis perferendis. `}
         </p>
+        {post?.creator?.id === data?.userId && (
+          <div className={styles.Buttons}>
+            <Button
+              className={'Update'}
+              title='update'
+              onClick={() =>
+                router.push(`${Resource.Routes.POST}/${post.id}/update`)
+              }
+            />
+            <Button className={'Delete'} title='delete' />
+          </div>
+        )}
       </div>
       <div className={styles.Comments}>
         <h5>Comments</h5>
@@ -115,26 +131,32 @@ const PostDetailPage = (props) => {
           />
         ))}
 
-        <Input
-          type='text'
-          kind='textarea'
-          className='Comment'
-          errorClassName='Comment'
-          labelClassName='Comment'
-          mainContainerClassName='Comment'
-          name='comment'
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder='Write your comment....'
-          label='Write your comment'
-          rows={6}
-          cols={4}
-        />
-        <Button
-          title={'Confirm'}
-          className='Comment'
-          onClick={handleCommentPost}
-        />
+        {status === 'authenticated' ? (
+          <>
+            <Input
+              type='text'
+              kind='textarea'
+              className='Comment'
+              errorClassName='Comment'
+              labelClassName='Comment'
+              mainContainerClassName='Comment'
+              name='comment'
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder='Write your comment....'
+              label='Write your comment'
+              rows={6}
+              cols={4}
+            />
+            <Button
+              title={'Confirm'}
+              className='Comment'
+              onClick={handleCommentPost}
+            />
+          </>
+        ) : (
+          <h5>Please Sign In To Comment</h5>
+        )}
       </div>
     </div>
   );

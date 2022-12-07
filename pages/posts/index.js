@@ -2,19 +2,43 @@ import { useState, useEffect } from 'react';
 import styles from '../../styles/Posts.module.css';
 import Post from '../../components/common/Post';
 import { getAllPosts } from '../../lib/api/Post';
-import { useGetPostsOfCategory } from '../../lib/query/Post';
+import { useGetPostsOfCategory, useSearchPosts } from '../../lib/query/Post';
 import { useGetAllCategories } from '../../lib/query/Category';
+import { useRouter } from 'next/router';
+import Resource from '../../public/Resource';
 
 const PostsPage = (props) => {
   const { posts } = props;
   const [category, setCategory] = useState('');
-  // const onGetCategoryPostsSuccess = (data) => {
-  //   console.log(data);
-  //   setData(data);
-  // };
-  const { data: categoryPosts, refetch } = useGetPostsOfCategory(
+  const router = useRouter();
+
+  const [postsData, setPostsData] = useState(posts);
+
+  const onSuccess = (data) => {
+    setPostsData(data);
+  };
+
+  const { refetch: search } = useSearchPosts(
+    (router && router?.query?.search) || '',
+    onSuccess
+  );
+
+  useEffect(() => {
+    if (router.query.search) {
+      search();
+    } else {
+      setPostsData(posts);
+    }
+  }, [router.query.search]);
+
+  const onSuccessCategoryPosts = (data) => {
+    setPostsData(data);
+  };
+
+  const { refetch } = useGetPostsOfCategory(
     category,
-    posts
+    posts,
+    onSuccessCategoryPosts
   );
   const { data: categories } = useGetAllCategories();
 
@@ -29,15 +53,25 @@ const PostsPage = (props) => {
       <div className={styles.PostsContainer}>
         <h6 className={styles.PostsHeader}>Posts</h6>
         <div className={styles.Posts}>
-          {categoryPosts &&
-            categoryPosts.data.map((post) => {
+          {postsData && postsData.data.length ? (
+            postsData.data.map((post) => {
               return <Post key={post.id} data={post} />;
-            })}
+            })
+          ) : (
+            <h4>No Post To Show</h4>
+          )}
         </div>
       </div>
       <div className={styles.Categories}>
         <h5>Categories</h5>
         <ul>
+          <li
+            onClick={() =>
+              router.replace(Resource.Routes.POST, undefined, { shallow: true })
+            }
+          >
+            All Posts
+          </li>
           {categories &&
             categories.length &&
             categories.map((category) => (

@@ -50,7 +50,9 @@
 .Button.PostButton,
 .Button.Edit,
 .Button.Save,
-.Button.Comment {
+.Button.Comment,
+.Button.Update,
+.Button.Delete {
   background-color: #0e6dfc;
   font-size: 18px;
   padding: 5px 18px;
@@ -61,7 +63,8 @@
 
 .Button.Edit,
 .Button.Save,
-.Button.Comment {
+.Button.Comment,
+.Button.Delete {
   background-color: #d68a50;
 }
 
