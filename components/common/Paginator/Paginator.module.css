@@ -1,0 +1,46 @@
+.Paginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px auto;
+  padding: 5px;
+}
+
+.Paginator span {
+  height: 50px;
+  width: 50px;
+  background-color: #c54f02;
+  color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.5s ease;
+}
+
+.Paginator .Active {
+  background-color: #ddcccc;
+  color: #041d29;
+}
+
+.Paginator span:hover {
+  background-color: #ddcccc;
+  color: #041d29;
+}
+
+/* .Paginator.disabled {
+  cursor: not-allowed;
+}
+
+.Paginator.disabled a {
+  cursor: not-allowed !important;
+} */
+
+@media (max-width: 650px) {
+  .Paginator span {
+    height: 40px;
+    width: 40px;
+    font-size: 15px;
+  }
+}

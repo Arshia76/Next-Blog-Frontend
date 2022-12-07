@@ -17,8 +17,10 @@ const UserPostsPage = () => {
     setPosts(data);
   };
 
-  const { refetch: refetchBookmark } = useGetBookmarkedPostsOfUser(onSuccess);
-  const { refetch: refetchUserPosts } = useGetPostsOfUser(onSuccess);
+  const { refetch: refetchBookmark } = useGetBookmarkedPostsOfUser({
+    onSuccess,
+  });
+  const { refetch: refetchUserPosts } = useGetPostsOfUser({ onSuccess });
 
   useEffect(() => {
     if (router?.query?.search?.toString() === 'userPosts') {
