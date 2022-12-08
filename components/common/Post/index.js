@@ -77,8 +77,10 @@ const Post = ({ data }) => {
       </div>
       <h3>{post.title || 'Manage The Future Of Technology'}</h3>
       <p>
-        {post.description ||
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero labore laboriosam nihil illo voluptatum, hic numquam expedita maiores maxime esse.'}
+        {post.description.length > 200
+          ? post.description.slice(0, 200) + '...'
+          : post.description ||
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero labore laboriosam nihil illo voluptatum, hic numquam expedita maiores maxime esse.'}
       </p>
       <div className={styles.SectionTwo}>
         <span
@@ -98,7 +100,6 @@ const Post = ({ data }) => {
             width={45}
             height={45}
             className={styles.AuthorImage}
-            objectFit='contain'
           />
           <span>{post?.creator?.username || 'Arshia'}</span>
         </div>

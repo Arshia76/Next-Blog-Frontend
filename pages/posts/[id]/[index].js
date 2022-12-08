@@ -100,7 +100,7 @@ const PostDetailPage = (props) => {
         </div>
         <div className={styles.Image}>
           <Image
-            src={'https://wallpapercave.com/wp/wp1877444.jpg' || postData.image}
+            src={process.env.NEXT_PUBLIC_URL + postData?.image}
             alt={postData?.title}
             layout='fill'
             objectFit='cover'

@@ -60,19 +60,19 @@ const PostsPage = (props) => {
             >
               All Posts
             </li>
-            {categories &&
-              categories.length &&
-              categories.map((category) => (
-                <li
-                  key={category.id}
-                  onClick={() => {
-                    setActivePage(1);
-                    setCategory(category.id);
-                  }}
-                >
-                  {category.title}
-                </li>
-              ))}
+            {categories && categories.length
+              ? categories.map((category) => (
+                  <li
+                    key={category.id}
+                    onClick={() => {
+                      setActivePage(1);
+                      setCategory(category.id);
+                    }}
+                  >
+                    {category.title}
+                  </li>
+                ))
+              : null}
           </ul>
         </div>
       </div>

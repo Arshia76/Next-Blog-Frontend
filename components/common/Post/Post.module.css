@@ -48,6 +48,9 @@
   margin: 15px 0;
   font-weight: bold;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Post p {
@@ -91,8 +94,8 @@
   margin-right: 8px;
 }
 
-.AuthorImage img {
-  object-fit: contain !important;
+.Post.AuthorImage img {
+  object-fit: fill !important;
 }
 
 .Post .SectionThree {
