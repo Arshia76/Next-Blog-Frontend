@@ -178,7 +178,22 @@ const PostDetailPage = (props) => {
             />
           </>
         ) : (
-          <h5>Please Sign In To Comment</h5>
+          <h6
+            onClick={() => router.push(Resource.Routes.AUTH)}
+            style={{
+              marginTop: '25px',
+              fontSize: '20px',
+              border: '1px solid #D68A50',
+              padding: '8px',
+              color: 'white',
+              borderRadius: '4px',
+              width: 'fit-content',
+              backgroundColor: '#D68A50',
+              cursor: 'pointer',
+            }}
+          >
+            Please Sign In To Comment
+          </h6>
         )}
       </div>
     </div>
@@ -210,5 +225,6 @@ export async function getStaticProps({ params }) {
     props: {
       post,
     },
+    revalidate: 60 * 60,
   };
 }

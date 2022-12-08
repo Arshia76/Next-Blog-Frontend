@@ -29,10 +29,12 @@ const HomePage = (props) => {
       <div className={styles.Container}>
         <h6 className={styles.LatestPosts}>Latest Posts</h6>
         <div className={styles.Home}>
-          {allPosts.data.map((post) => {
-            console.log(post);
-            return <Post key={post.id} data={post} />;
-          })}
+          {allPosts && allPosts?.data?.length
+            ? allPosts.data.map((post) => {
+                console.log(post);
+                return <Post key={post.id} data={post} />;
+              })
+            : null}
         </div>
       </div>
       {allPosts && allPosts.count > process.env.NEXT_PUBLIC_TAKE && (
@@ -55,11 +57,13 @@ export default HomePage;
 
 export async function getStaticProps() {
   try {
-    const data = await getAllPosts();
+    const { data } = await getAllPosts();
+    console.log(data);
     return {
       props: {
         posts: data,
       },
+      revalidate: 60 * 60,
     };
   } catch (error) {
     console.log(error);

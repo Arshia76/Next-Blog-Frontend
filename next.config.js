@@ -7,7 +7,7 @@ const nextConfig = {
       'www.clinicdermatech.com',
       'wallpapercave.com',
       'localhost',
-      'https://next-blog-api.cyclic.app',
+      'next-blog-api.onrender.com',
     ],
   },
 };
