@@ -6,7 +6,11 @@ import Input from '../../../components/controls/Input';
 import Button from '../../../components/controls/Button';
 import { getAllPosts, getPostDetail } from '../../../lib/api/Post';
 import moment from 'jalali-moment';
-import { useCommentPost, useGetPostDetail } from '../../../lib/query/Post';
+import {
+  useCommentPost,
+  useGetPostDetail,
+  useDeletePost,
+} from '../../../lib/query/Post';
 import { toast } from 'react-toastify';
 import { useQueryClient } from 'react-query';
 import { GET_POST_DETAIL } from '../../../lib/query/keys';
@@ -51,6 +55,21 @@ const PostDetailPage = (props) => {
   };
 
   const { data: postData } = useGetPostDetail(post.id, post);
+
+  const onSuccessDelete = () => {
+    toast.success('Post Removed Successully');
+    router.push(Resource.Routes.HOME);
+  };
+
+  const onErrorDelete = (err) => {
+    toast.error(err.response.data.message || 'Error On Deleting Post');
+  };
+
+  const { mutate: deletePost } = useDeletePost(onSuccessDelete, onErrorDelete);
+
+  const handleDeletePost = () => {
+    deletePost(postData.id);
+  };
 
   return (
     <div className={styles.Detail}>
@@ -117,7 +136,11 @@ const PostDetailPage = (props) => {
                 router.push(`${Resource.Routes.POST}/${post.id}/update`)
               }
             />
-            <Button className={'Delete'} title='delete' />
+            <Button
+              className={'Delete'}
+              title='delete'
+              onClick={handleDeletePost}
+            />
           </div>
         )}
       </div>
