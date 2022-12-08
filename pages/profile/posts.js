@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Post from '../../components/common/Post';
 import PrivateRoute from '../../components/common/PrivateRoute';
+import Paginator from '../../components/common/Paginator';
 import {
   useGetBookmarkedPostsOfUser,
   useGetPostsOfUser,
@@ -10,6 +11,7 @@ import styles from '../../styles/UserPosts.module.css';
 
 const UserPostsPage = () => {
   const router = useRouter();
+  const [activePage, setActivePage] = useState(1);
 
   const [posts, setPosts] = useState([]);
 
@@ -18,9 +20,13 @@ const UserPostsPage = () => {
   };
 
   const { refetch: refetchBookmark } = useGetBookmarkedPostsOfUser({
+    page: activePage,
     onSuccess,
   });
-  const { refetch: refetchUserPosts } = useGetPostsOfUser({ onSuccess });
+  const { refetch: refetchUserPosts } = useGetPostsOfUser({
+    page: activePage,
+    onSuccess,
+  });
 
   useEffect(() => {
     if (router?.query?.search?.toString() === 'userPosts') {
@@ -28,7 +34,11 @@ const UserPostsPage = () => {
     } else if (router?.query?.search?.toString() === 'bookmark') {
       refetchBookmark();
     }
-  }, [router.query]);
+  }, [router.query, activePage]);
+
+  const handleActivePage = (page) => {
+    setActivePage(page);
+  };
 
   return (
     <div className={styles.UserPostContainer}>
@@ -48,6 +58,18 @@ const UserPostsPage = () => {
           <div>no data to show</div>
         )}
       </div>
+      {posts && posts.count > process.env.NEXT_PUBLIC_TAKE && (
+        <Paginator
+          firstPage={posts?.firstPage || 1}
+          lastPage={posts?.lastPage}
+          nextPage={posts?.nextPage}
+          previousPage={posts?.previousPage}
+          itemsPerPage={posts.count / process.env.NEXT_PUBLIC_TAKE}
+          activePage={activePage}
+          total={posts.count}
+          setActivePage={handleActivePage}
+        />
+      )}
     </div>
   );
 };

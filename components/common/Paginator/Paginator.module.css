@@ -7,9 +7,9 @@
 }
 
 .Paginator span {
-  height: 50px;
-  width: 50px;
-  background-color: #c54f02;
+  height: 40px;
+  width: 40px;
+  background-color: #d68a50;
   color: whitesmoke;
   display: flex;
   justify-content: center;
@@ -39,8 +39,6 @@
 
 @media (max-width: 650px) {
   .Paginator span {
-    height: 40px;
-    width: 40px;
     font-size: 15px;
   }
 }

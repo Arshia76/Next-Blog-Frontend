@@ -1,5 +1,5 @@
 .Post {
-  padding: 15px 50px;
+  padding: 15px;
   box-shadow: 0px 0px 8px -5px rgba(0, 0, 0, 0.35);
   border-radius: 5px;
 }
@@ -9,6 +9,10 @@
   height: 250px;
   margin-bottom: 8px;
   position: relative;
+}
+
+.Post .Image img {
+  object-fit: cover !important;
 }
 
 .Post .SectionOne {
@@ -85,6 +89,10 @@
 .Post .AuthorImage {
   border-radius: 50%;
   margin-right: 8px;
+}
+
+.AuthorImage img {
+  object-fit: contain !important;
 }
 
 .Post .SectionThree {
