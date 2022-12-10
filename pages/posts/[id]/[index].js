@@ -107,7 +107,10 @@ const PostDetailPage = (props) => {
         </div>
         <div className={styles.Image}>
           <Image
-            src={process.env.NEXT_PUBLIC_URL + postData?.image}
+            src={
+              process.env.NEXT_PUBLIC_URL +
+              postData?.image.replaceAll('\\', '/')
+            }
             alt={postData?.title}
             layout='fill'
             objectFit='cover'
