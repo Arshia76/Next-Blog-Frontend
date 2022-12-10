@@ -5,12 +5,18 @@ import Hero from '../components/page/Home/Hero';
 import { getAllPosts } from '../lib/api/Post';
 import Paginator from '../components/common/Paginator';
 import { useGetAllPosts } from '../lib/query/Post';
+import DotLoader from '../components/common/DotLoader';
 
 const HomePage = (props) => {
   const { posts } = props;
   const [activePage, setActivePage] = useState(1);
 
-  const { data: allPosts, refetch } = useGetAllPosts({
+  const {
+    data: allPosts,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useGetAllPosts({
     initialData: posts,
     page: activePage,
   });
@@ -37,17 +43,22 @@ const HomePage = (props) => {
             : null}
         </div>
       </div>
-      {allPosts && allPosts.count > process.env.NEXT_PUBLIC_TAKE && (
-        <Paginator
-          firstPage={allPosts?.firstPage || 1}
-          lastPage={allPosts?.lastPage}
-          nextPage={allPosts?.nextPage}
-          previousPage={allPosts?.previousPage}
-          itemsPerPage={allPosts.count / process.env.NEXT_PUBLIC_TAKE}
-          activePage={activePage}
-          total={allPosts.count}
-          setActivePage={handleActivePage}
-        />
+      {isFetching || isLoading ? (
+        <DotLoader />
+      ) : (
+        allPosts &&
+        allPosts.count > process.env.NEXT_PUBLIC_TAKE && (
+          <Paginator
+            firstPage={allPosts?.firstPage || 1}
+            lastPage={allPosts?.lastPage}
+            nextPage={allPosts?.nextPage}
+            previousPage={allPosts?.previousPage}
+            itemsPerPage={allPosts.count / process.env.NEXT_PUBLIC_TAKE}
+            activePage={activePage}
+            total={allPosts.count}
+            setActivePage={handleActivePage}
+          />
+        )
       )}
     </div>
   );

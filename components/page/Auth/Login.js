@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styles from './Auth.module.css';
 import Input from '../../controls/Input';
 import Button from '../../controls/Button';
@@ -7,12 +8,14 @@ import * as yup from 'yup';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import Resource from '../../../public/Resource';
+import { ImSpinner2 } from 'react-icons/im';
 
 const Login = (props) => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const Login = async (values) => {
-    // setLoading(true);
+    setLoading(true);
     const res = await signIn('credentials', {
       ...values,
       redirect: false,
@@ -21,12 +24,10 @@ const Login = (props) => {
 
     if (res.ok) {
       router.replace(Resource.Routes.HOME);
-      // toast.success('Logged in successfuly');
-      // setLoading(false);
+      setLoading(false);
     } else {
       console.log('failed');
-      // toast.error(res.error);
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -85,7 +86,13 @@ const Login = (props) => {
         <span onClick={() => props.setState('Register')}>
           Dont have an account? <strong>Register</strong>
         </span>
-        <Button title={'Login'} className='Auth' />
+        <Button
+          title={!loading && 'Login'}
+          className='Auth'
+          isLoader={true}
+          disabled={loading}
+          img={loading && <ImSpinner2 size={25} color='#fff' />}
+        />
       </form>
       <Side />
     </div>

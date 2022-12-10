@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { ImSpinner2 } from 'react-icons/im';
 
 const Edit = ({ userData }) => {
   const onSuccessUpdateUser = () => {
@@ -17,7 +18,7 @@ const Edit = ({ userData }) => {
     err.response.data.message.forEach((error) => toast.error(error));
   };
 
-  const { mutate: updateUser } = useUpdateUser(
+  const { mutate: updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser(
     onSuccessUpdateUser,
     onErrorUpdateUser
   );
@@ -50,10 +51,8 @@ const Edit = ({ userData }) => {
     toast.error(err.response.data.message);
   };
 
-  const { mutate: changePasswordFun } = useChangePassword(
-    onSuccessChangePassword,
-    onErrorChangePassword
-  );
+  const { mutate: changePasswordFun, isLoading: isLoadingChangePassword } =
+    useChangePassword(onSuccessChangePassword, onErrorChangePassword);
 
   const onSubmitChangePassword = (values) => {
     changePasswordFun(values);
@@ -111,7 +110,14 @@ const Edit = ({ userData }) => {
             }
           />
         </div>
-        <Button title='Edit' className='Edit' type='submit' />
+        <Button
+          title={!isLoadingUpdateUser && 'Edit'}
+          isLoader={true}
+          disabled={isLoadingUpdateUser}
+          img={isLoadingUpdateUser && <ImSpinner2 size={25} color='#fff' />}
+          className='Edit'
+          type='submit'
+        />
       </form>
       <hr />
       <form
@@ -155,7 +161,14 @@ const Edit = ({ userData }) => {
             }
           />
         </div>
-        <Button title='Save' className='Save' type='submit' />
+        <Button
+          title={!isLoadingChangePassword && 'Save'}
+          isLoader={true}
+          disabled={isLoadingChangePassword}
+          img={isLoadingChangePassword && <ImSpinner2 size={25} color='#fff' />}
+          className='Save'
+          type='submit'
+        />
       </form>
     </div>
   );

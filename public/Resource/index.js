@@ -1,4 +1,5 @@
 import LOADER from './Gif/Loader.gif';
+import DOT_LOADER from './Gif/dot.gif';
 
 import SEARCH_IMG from './Images/search.png';
 import LOGO_IMG from './Images/logo.png';
@@ -15,6 +16,7 @@ class Resource {
 
   static Gif = {
     LOADER,
+    DOT_LOADER,
   };
 
   static Svg = {

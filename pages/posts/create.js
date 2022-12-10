@@ -9,13 +9,19 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import styles from '../../styles/PostAction.module.css';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import Resource from '../../public/Resource';
+import { ImSpinner2 } from 'react-icons/im';
 
 const CreatePostpage = () => {
+  const router = useRouter();
+
   const { data } = useGetAllCategories();
 
   const onCreateSuccess = () => {
     toast.success('post created successfully');
     formik.resetForm();
+    router.push(Resource.Routes.HOME);
   };
 
   const onCreateError = (err) => {
@@ -23,7 +29,10 @@ const CreatePostpage = () => {
     console.log(err);
   };
 
-  const { mutate: createPost } = useCreatePost(onCreateSuccess, onCreateError);
+  const { mutate: createPost, isLoading: isLoadingCreate } = useCreatePost(
+    onCreateSuccess,
+    onCreateError
+  );
 
   const [openFileSelector, { plainFiles }] = useFilePicker({
     accept: 'image/*',
@@ -45,7 +54,7 @@ const CreatePostpage = () => {
     console.log(err.respsone.data);
   };
 
-  const { mutate: uploadImage } = useUploadPostImage(
+  const { mutate: uploadImage, isLoading: isLoadingImage } = useUploadPostImage(
     onSuccessUpload,
     onErrorUpload
   );
@@ -73,6 +82,7 @@ const CreatePostpage = () => {
       category: '',
       image: '',
     },
+    validateOnBlur: false,
     validationSchema,
     onSubmit,
   });
@@ -102,6 +112,7 @@ const CreatePostpage = () => {
           classNamePrefix='PostSelect'
           labelClassName='PostSelectLabel'
           mainContainerClassname='PostSelectContainer'
+          errorClassName='PostSelectError'
           label='category'
           value={formik.values.category}
           options={
@@ -146,8 +157,23 @@ const CreatePostpage = () => {
           showPreview={true}
         />
         <div className={styles.Buttons}>
-          <Button title='Create' className='PostButton' />
-          <Button title='Cancel' className='PostButton-Cancel' />
+          <Button
+            title={!isLoadingCreate && !isLoadingImage && 'Create'}
+            isLoader={true}
+            img={
+              isLoadingCreate || isLoadingImage ? (
+                <ImSpinner2 size={25} color='#fff' />
+              ) : null
+            }
+            className='PostButton'
+            disabled={isLoadingCreate || isLoadingImage}
+          />
+          <Button
+            title='Cancel'
+            className='PostButton-Cancel'
+            onClick={() => router.back()}
+            type='button'
+          />
         </div>
       </form>
     </div>

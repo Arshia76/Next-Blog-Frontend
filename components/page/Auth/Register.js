@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styles from './Auth.module.css';
 import Side from './Side';
 import File from '../../common/File';
@@ -10,9 +11,13 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { signIn } from 'next-auth/react';
+import { ImSpinner2 } from 'react-icons/im';
 
 const Register = (props) => {
+  const [loading, setLoading] = useState(false);
+
   const onSuccessRegister = async () => {
+    setLoading(true);
     toast.success('Registered Successfully');
     const res = await signIn('credentials', {
       username: formik.values.username,
@@ -22,9 +27,11 @@ const Register = (props) => {
     console.log(res);
 
     if (res.ok) {
+      setLoading(false);
       router.replace(Resource.Routes.HOME);
       toast.success('Logged in successfuly');
     } else {
+      setLoading(false);
       console.log('failed');
       toast.error('Error In Login');
     }
@@ -50,7 +57,7 @@ const Register = (props) => {
     toast.error(err.response.data.message || 'Error In Upload');
   };
 
-  const { mutate: register } = useLocalRegister(
+  const { mutate: register, isLoading } = useLocalRegister(
     onSuccessRegister,
     onErrorRegister
   );
@@ -149,7 +156,15 @@ const Register = (props) => {
         <span onClick={() => props.setState('Login')}>
           Have an account? <strong>Login</strong>
         </span>
-        <Button title={'Register'} className='Auth' />
+        <Button
+          title={!isLoading && !loading && 'Register'}
+          isLoader={true}
+          disabled={loading || isLoading}
+          img={
+            loading || isLoading ? <ImSpinner2 size={25} color='#fff' /> : null
+          }
+          className='Auth'
+        />
       </form>
       <Side />
     </div>

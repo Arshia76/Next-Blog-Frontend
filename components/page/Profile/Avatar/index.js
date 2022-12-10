@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styles from './Avatar.module.css';
 import Button from '../../../controls/Button';
 import Image from 'next/image';
@@ -6,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useUpdateAvatar } from '../../../../lib/query/User';
 import { toast } from 'react-toastify';
 import { useFilePicker } from 'use-file-picker';
+import { ImSpinner2 } from 'react-icons/im';
 
 const Avatar = (props) => {
   const { userData } = props;
@@ -22,7 +22,7 @@ const Avatar = (props) => {
     toast.error(err.response.data.message || 'Error In Updating Avatar');
   };
 
-  const { mutate } = useUpdateAvatar(onSuccess, onError);
+  const { mutate, isLoading } = useUpdateAvatar(onSuccess, onError);
 
   const updateAvatar = (e) => {
     e.preventDefault();
@@ -51,7 +51,10 @@ const Avatar = (props) => {
       />
       <span>{userData?.username || 'arshia'}</span>
       <Button
-        title={'Change Avatar'}
+        title={!isLoading && 'Change Avatar'}
+        isLoader={true}
+        disabled={isLoading}
+        img={isLoading && <ImSpinner2 size={25} color='#fff' />}
         className='Profile'
         onClick={updateAvatar}
       />

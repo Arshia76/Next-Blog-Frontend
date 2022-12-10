@@ -20,6 +20,7 @@ import PrivateRoute from '../../../components/common/PrivateRoute';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Resource from '../../../public/Resource';
+import { ImSpinner2 } from 'react-icons/im';
 
 const UpdatePostpage = ({ post }) => {
   const router = useRouter();
@@ -49,7 +50,10 @@ const UpdatePostpage = ({ post }) => {
     console.log(err);
   };
 
-  const { mutate: updatePost } = useUpdatePost(onUpdateSuccess, onUpdateError);
+  const { mutate: updatePost, isLoading: isLoadingUpdate } = useUpdatePost(
+    onUpdateSuccess,
+    onUpdateError
+  );
 
   const [openFileSelector, { plainFiles }] = useFilePicker({
     accept: 'image/*',
@@ -71,7 +75,7 @@ const UpdatePostpage = ({ post }) => {
     console.log(err.respsone.data);
   };
 
-  const { mutate: updatePostImage } = useUpdatePostImage(
+  const { mutate: updatePostImage, isLoadingImage } = useUpdatePostImage(
     onSuccessUpload,
     onErrorUpload
   );
@@ -95,6 +99,7 @@ const UpdatePostpage = ({ post }) => {
 
   const formik = useFormik({
     enableReinitialize: true,
+    validateOnBlur: false,
     initialValues: {
       title: postDetail && postDetail.title,
       description: postDetail && postDetail.description,
@@ -179,8 +184,24 @@ const UpdatePostpage = ({ post }) => {
           showPreview={true}
         />
         <div className={styles.Buttons}>
-          <Button title='Update' className='PostButton' type='submit' />
-          <Button title='Cancel' className='PostButton-Cancel' />
+          <Button
+            title={!isLoadingImage && !isLoadingUpdate && 'Update'}
+            isLoader={true}
+            img={
+              isLoadingImage || isLoadingUpdate ? (
+                <ImSpinner2 size={25} color='#fff' />
+              ) : null
+            }
+            className='PostButton'
+            type='submit'
+            disabled={isLoadingImage || isLoadingUpdate}
+          />
+          <Button
+            title='Cancel'
+            className='PostButton-Cancel'
+            type={'button'}
+            onClick={() => router.back()}
+          />
         </div>
       </form>
     </div>

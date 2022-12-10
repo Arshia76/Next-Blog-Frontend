@@ -17,6 +17,7 @@ import { GET_POST_DETAIL } from '../../../lib/query/keys';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Resource from '../../../public/Resource';
+import { ImSpinner2 } from 'react-icons/im';
 
 const PostDetailPage = (props) => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const PostDetailPage = (props) => {
     toast.error(err.response.data.message);
   };
 
-  const { mutate: commentPost } = useCommentPost(
+  const { mutate: commentPost, isLoading } = useCommentPost(
     onCommentSuccess,
     onCommentError
   );
@@ -65,7 +66,10 @@ const PostDetailPage = (props) => {
     toast.error(err.response.data.message || 'Error On Deleting Post');
   };
 
-  const { mutate: deletePost } = useDeletePost(onSuccessDelete, onErrorDelete);
+  const { mutate: deletePost, isLoading: isLoadingDelete } = useDeletePost(
+    onSuccessDelete,
+    onErrorDelete
+  );
 
   const handleDeletePost = () => {
     deletePost(postData.id);
@@ -138,8 +142,11 @@ const PostDetailPage = (props) => {
             />
             <Button
               className={'Delete'}
-              title='delete'
+              title={!isLoadingDelete && 'delete'}
               onClick={handleDeletePost}
+              isLoader={true}
+              img={isLoadingDelete && <ImSpinner2 size={25} color='#fff' />}
+              disabled={isLoadingDelete}
             />
           </div>
         )}
@@ -172,8 +179,11 @@ const PostDetailPage = (props) => {
               cols={4}
             />
             <Button
-              title={'Confirm'}
+              title={!isLoading && 'Confirm'}
+              img={isLoading && <ImSpinner2 size={25} color='#fff' />}
               className='Comment'
+              disabled={isLoading}
+              isLoader={true}
               onClick={handleCommentPost}
             />
           </>

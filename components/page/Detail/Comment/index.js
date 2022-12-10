@@ -7,10 +7,7 @@ const Comment = (props) => {
   return (
     <div className={styles.Comment}>
       <Image
-        src={
-          'https://www.clinicdermatech.com/images/men-service-face.jpg' ||
-          props.user.avatar
-        }
+        src={process.env.NEXT_PUBLIC_URL + props?.user?.avatar}
         alt={props.user.username}
         width={80}
         height={80}

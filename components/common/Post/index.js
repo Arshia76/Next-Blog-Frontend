@@ -16,43 +16,57 @@ import PropTypes from 'prop-types';
 import {
   useHandleBookmarkPost,
   useHandleLikePost,
+  useGetBookmarkedPostsOfUser,
 } from '../../../lib/query/Post';
 import { toast } from 'react-toastify';
 
-const Post = ({ data }) => {
-  const { data: user } = useSession();
+const Post = ({ data, page }) => {
+  const { refetch: getBookmarkedPosts } = useGetBookmarkedPostsOfUser({
+    page,
+  });
+
+  const { data: user, status } = useSession();
   const router = useRouter();
   const [post, setPost] = useState(data);
 
   const onLikeSuccess = (data) => {
-    console.log(data);
     setPost(data);
   };
 
   const onLikeError = (err) => {
-    toast.error(err.response.data.message);
+    toast.error(err.response.data.message || 'Please Try again later');
   };
 
   const onBookmarkSuccess = (data) => {
     setPost(data);
+    getBookmarkedPosts();
   };
 
   const onBookmarkError = (err) => {
-    toast.error(err.response.data.message);
+    toast.error(err.response.data.message || 'Please Try again later');
   };
 
-  const { mutate: handleLike } = useHandleLikePost(onLikeSuccess, onLikeError);
-  const { mutate: handleBookmark } = useHandleBookmarkPost(
-    onBookmarkSuccess,
-    onBookmarkError
+  const { mutate: handleLike, isLoading: isLoadingLike } = useHandleLikePost(
+    onLikeSuccess,
+    onLikeError
   );
+  const { mutate: handleBookmark, isLoading: isLoadingBookmark } =
+    useHandleBookmarkPost(onBookmarkSuccess, onBookmarkError);
 
   const handleLikePost = () => {
-    handleLike(post.id);
+    if (status === 'authenticated' && !isLoadingLike) {
+      handleLike(post.id);
+    } else {
+      toast.error('Please Sign In to Like');
+    }
   };
 
   const handleBookmarkPost = () => {
-    handleBookmark(post.id);
+    if (status === 'authenticated' && !isLoadingBookmark) {
+      handleBookmark(post.id);
+    } else {
+      toast.error('Please Sign In to Bookmark');
+    }
   };
 
   return (
@@ -63,7 +77,7 @@ const Post = ({ data }) => {
             `${process.env.NEXT_PUBLIC_URL}${post.image}` ||
             'https://wallpapercave.com/wp/wp1877444.jpg'
           }
-          alt={post.title || 'Manage The Future Of Technology'}
+          alt={post?.title || 'Manage The Future Of Technology'}
           layout='fill'
           objectFit='cover'
           style={{ borderRadius: '5px' }}
@@ -73,19 +87,19 @@ const Post = ({ data }) => {
         <span>
           {moment(post.createdAt).format('MMM DD, YYYY') || 'May 15, 2015'}
         </span>
-        <span>{post.category.title || 'Technology'}</span>
+        <span>{post?.category?.title || 'Technology'}</span>
       </div>
-      <h3>{post.title || 'Manage The Future Of Technology'}</h3>
+      <h3>{post?.title || 'Manage The Future Of Technology'}</h3>
       <p>
-        {post.description.length > 200
-          ? post.description.slice(0, 200) + '...'
-          : post.description ||
+        {post?.description?.length > 200
+          ? post?.description.slice(0, 200) + '...'
+          : post?.description ||
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero labore laboriosam nihil illo voluptatum, hic numquam expedita maiores maxime esse.'}
       </p>
       <div className={styles.SectionTwo}>
         <span
           onClick={() =>
-            router.push(`${Resource.Routes.POST}/${post.id}/detail`)
+            router.push(`${Resource.Routes.POST}/${post?.id}/detail`)
           }
         >
           Read More
@@ -122,7 +136,7 @@ const Post = ({ data }) => {
           <span>{post?.likes?.length || 0}</span>
         </div>
         <div onClick={handleBookmarkPost}>
-          {post.bookmarkedByUsers.some((u) => u.id === user?.userId) ? (
+          {post?.bookmarkedByUsers?.some((u) => u.id === user?.userId) ? (
             <BsFillBookmarkFill size={22} fill='#877E81' />
           ) : (
             <BsBookmark size={22} fill='#877E81' />

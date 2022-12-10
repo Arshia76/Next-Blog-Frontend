@@ -30,7 +30,7 @@ Button.defaultProps = {
   title: null,
   disabled: false,
   isLoader: false,
-  type: 'submit',
+  type: '',
 };
 
 Button.propTypes = {

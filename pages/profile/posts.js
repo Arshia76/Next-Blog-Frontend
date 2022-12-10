@@ -8,6 +8,7 @@ import {
 } from '../../lib/query/Post';
 import { useRouter } from 'next/router';
 import styles from '../../styles/UserPosts.module.css';
+import DotLoader from '../../components/common/DotLoader';
 
 const UserPostsPage = () => {
   const router = useRouter();
@@ -19,14 +20,16 @@ const UserPostsPage = () => {
     setPosts(data);
   };
 
-  const { refetch: refetchBookmark } = useGetBookmarkedPostsOfUser({
-    page: activePage,
-    onSuccess,
-  });
-  const { refetch: refetchUserPosts } = useGetPostsOfUser({
-    page: activePage,
-    onSuccess,
-  });
+  const { refetch: refetchBookmark, isFetching: isFetchingBookmarkPosts } =
+    useGetBookmarkedPostsOfUser({
+      page: activePage,
+      onSuccess,
+    });
+  const { refetch: refetchUserPosts, isFetching: isFetchingUserPosts } =
+    useGetPostsOfUser({
+      page: activePage,
+      onSuccess,
+    });
 
   useEffect(() => {
     if (router?.query?.search?.toString() === 'userPosts') {
@@ -40,6 +43,10 @@ const UserPostsPage = () => {
     setActivePage(page);
   };
 
+  if (isFetchingBookmarkPosts || isFetchingUserPosts) {
+    return <DotLoader />;
+  }
+
   return (
     <div className={styles.UserPostContainer}>
       <h3 className={styles.Header}>
@@ -52,7 +59,7 @@ const UserPostsPage = () => {
       <div className={styles.Posts}>
         {posts && posts.data && posts.data.length ? (
           posts.data.map((post) => {
-            return <Post key={post.id} data={post} />;
+            return <Post key={post.id} data={post} page={activePage} />;
           })
         ) : (
           <div>no data to show</div>

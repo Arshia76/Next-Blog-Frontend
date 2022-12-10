@@ -7,6 +7,7 @@ import { useGetAllPosts } from '../../lib/query/Post';
 import { useGetAllCategories } from '../../lib/query/Category';
 import { useRouter } from 'next/router';
 import Resource from '../../public/Resource';
+import DotLoader from '../../components/common/DotLoader';
 
 const PostsPage = (props) => {
   const { posts } = props;
@@ -15,7 +16,7 @@ const PostsPage = (props) => {
 
   const router = useRouter();
 
-  const { data, refetch } = useGetAllPosts({
+  const { data, isLoading, isFetching, refetch } = useGetAllPosts({
     initialData: posts,
     category: category,
     search: router?.query?.search,
@@ -30,23 +31,34 @@ const PostsPage = (props) => {
     refetch();
   }, [activePage, category, router.query.search]);
 
-  const { data: categories } = useGetAllCategories();
+  const { data: categories, isLoading: isLoadingCategories } =
+    useGetAllCategories();
+
+  if (isLoadingCategories) {
+    return <DotLoader />;
+  }
 
   return (
     <>
       <div className={styles.PostsPage}>
-        <div className={styles.PostsContainer}>
-          <h6 className={styles.PostsHeader}>Posts</h6>
-          <div className={styles.Posts}>
-            {data && data.data.length ? (
-              data.data.map((post) => {
-                return <Post key={post.id} data={post} />;
-              })
-            ) : (
-              <h4>No Post To Show</h4>
-            )}
-          </div>
-        </div>
+        {isLoading || isFetching ? (
+          <DotLoader />
+        ) : (
+          <>
+            <div className={styles.PostsContainer}>
+              <h6 className={styles.PostsHeader}>Posts</h6>
+              <div className={styles.Posts}>
+                {data && data.data.length ? (
+                  data.data.map((post) => {
+                    return <Post key={post.id} data={post} />;
+                  })
+                ) : (
+                  <h4>No Post To Show</h4>
+                )}
+              </div>
+            </div>
+          </>
+        )}
         <div className={styles.Categories}>
           <h5>Categories</h5>
           <ul>
