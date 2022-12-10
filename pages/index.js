@@ -37,7 +37,6 @@ const HomePage = (props) => {
         <div className={styles.Home}>
           {allPosts && allPosts?.data?.length
             ? allPosts.data.map((post) => {
-                console.log(post);
                 return <Post key={post.id} data={post} />;
               })
             : null}

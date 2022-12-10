@@ -74,8 +74,10 @@ const Post = ({ data, page }) => {
       <div className={styles.Image}>
         <Image
           src={
-            `${process.env.NEXT_PUBLIC_URL}${post.image}` ||
-            'https://wallpapercave.com/wp/wp1877444.jpg'
+            `${process.env.NEXT_PUBLIC_URL}${post.image.replaceAll(
+              '\\',
+              '/'
+            )}` || 'https://wallpapercave.com/wp/wp1877444.jpg'
           }
           alt={post?.title || 'Manage The Future Of Technology'}
           layout='fill'
