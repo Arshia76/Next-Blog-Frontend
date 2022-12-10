@@ -85,7 +85,10 @@ const PostDetailPage = (props) => {
         <div className={styles.Section}>
           <div className={styles.AuthorImage}>
             <Image
-              src={process.env.NEXT_PUBLIC_URL + postData?.creator?.avatar}
+              src={
+                process.env.NEXT_PUBLIC_URL +
+                postData?.creator?.avatar.replaceAll('\\', '/')
+              }
               alt={postData?.creator?.username}
               width={50}
               height={50}

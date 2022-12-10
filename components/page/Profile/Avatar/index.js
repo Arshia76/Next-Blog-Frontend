@@ -41,7 +41,11 @@ const Avatar = (props) => {
         src={
           plainFiles.length
             ? URL.createObjectURL(plainFiles[0])
-            : userData && `${process.env.NEXT_PUBLIC_URL}${userData.avatar}`
+            : userData &&
+              `${process.env.NEXT_PUBLIC_URL}${userData.avatar.replaceAll(
+                '\\',
+                '/'
+              )}`
         }
         alt='profile-image'
         width={120}

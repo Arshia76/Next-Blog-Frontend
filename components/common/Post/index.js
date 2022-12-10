@@ -109,7 +109,10 @@ const Post = ({ data, page }) => {
         <div>
           <Image
             src={
-              `${process.env.NEXT_PUBLIC_URL}${post?.creator?.avatar}` ||
+              `${process.env.NEXT_PUBLIC_URL}${post?.creator?.avatar.replaceAll(
+                '\\',
+                '/'
+              )}` ||
               'https://www.clinicdermatech.com/images/men-service-face.jpg'
             }
             alt={post?.creator?.username || 'Arshia'}
