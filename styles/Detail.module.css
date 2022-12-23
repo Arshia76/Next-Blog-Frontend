@@ -68,6 +68,10 @@
   margin-top: 20px;
 }
 
+.Image img {
+  object-fit: fill !important;
+}
+
 .Content p {
   font-size: 18px;
   text-align: justify;
@@ -97,12 +101,22 @@
   margin: 20px 0;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .Content {
     width: 90%;
   }
 
   .Comments {
     width: 90%;
+  }
+}
+
+@media (max-width: 700px) {
+  .Image {
+    height: 200px;
+  }
+
+  .Content h3 {
+    font-size: 22px;
   }
 }

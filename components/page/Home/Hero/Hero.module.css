@@ -1,7 +1,7 @@
 .Hero {
   position: relative;
   width: 100%;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 128px);
   opacity: 0.9;
 }
 

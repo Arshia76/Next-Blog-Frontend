@@ -37,3 +37,32 @@
 .Group .Action span:last-child {
   border-radius: 0 0 5px 5px;
 }
+
+@media (max-width: 800px) {
+  .ProfilePage {
+    grid-template-columns: 1fr;
+  }
+
+  .Group {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+  }
+
+  .Action {
+    margin-top: 0 !important;
+    margin-left: 20px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 450px) {
+  .Group {
+    flex-direction: column;
+  }
+
+  .Action {
+    margin-left: 0;
+    margin-top: 20px !important;
+  }
+}

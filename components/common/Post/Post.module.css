@@ -6,13 +6,13 @@
 
 .Post .Image {
   width: 100%;
-  height: 250px;
+  height: 200px;
   margin-bottom: 8px;
   position: relative;
 }
 
 .Post .Image img {
-  object-fit: cover !important;
+  object-fit: fill !important;
 }
 
 .Post .SectionOne {

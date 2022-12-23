@@ -47,13 +47,19 @@ const Header = () => {
           </Link>
         </li>
         {width < 768 && (
-          <FaHamburger size={28} fill='#fff' onClick={() => setOpen(true)} />
+          <FaHamburger
+            cursor={'pointer'}
+            size={28}
+            fill='#fff'
+            onClick={() => setOpen(true)}
+          />
         )}
         <div className={open ? styles.Open : styles.Close}>
           {width < 768 && (
             <IoClose
               size={35}
               fill='#fff'
+              cursor={'pointer'}
               style={{
                 marginLeft: 'auto',
                 marginRight: '20px',
