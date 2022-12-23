@@ -18,7 +18,7 @@
 .FileName span {
   margin-left: 5px;
   font-size: 18px;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .FileImage {

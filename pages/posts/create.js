@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Resource from '../../public/Resource';
 import { ImSpinner2 } from 'react-icons/im';
+import PrivateRoute from '../../components/common/PrivateRoute';
 
 const CreatePostpage = () => {
   const router = useRouter();
@@ -180,4 +181,4 @@ const CreatePostpage = () => {
   );
 };
 
-export default CreatePostpage;
+export default PrivateRoute(CreatePostpage);

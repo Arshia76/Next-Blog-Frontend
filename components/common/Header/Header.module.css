@@ -69,6 +69,7 @@
     top: 0;
     height: 100vh;
     width: 60vw;
+    z-index: 20000;
   }
 
   .Header ul div li {
