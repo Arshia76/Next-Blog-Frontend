@@ -48,8 +48,8 @@ const PostsPage = (props) => {
             <div className={styles.PostsContainer}>
               <h6 className={styles.PostsHeader}>Posts</h6>
               <div className={styles.Posts}>
-                {data && data.data.length ? (
-                  data.data.map((post) => {
+                {data && data.length ? (
+                  data.map((post) => {
                     return <Post key={post.id} data={post} />;
                   })
                 ) : (
