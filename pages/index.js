@@ -36,7 +36,7 @@ const HomePage = (props) => {
         <h6 className={styles.LatestPosts}>Latest Posts</h6>
         <div className={styles.Home}>
           {allPosts && allPosts?.data?.length
-            ? allPosts.data.map((post) => {
+            ? allPosts.slice(0, 4).data.map((post) => {
                 return <Post key={post.id} data={post} />;
               })
             : null}
