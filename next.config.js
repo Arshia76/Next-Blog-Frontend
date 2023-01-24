@@ -8,6 +8,7 @@ const nextConfig = {
       'wallpapercave.com',
       'localhost',
       'next-blog-api.iran.liara.run',
+      'https://next-blog-nly8.onrender.com',
     ],
   },
 };
