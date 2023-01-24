@@ -7,10 +7,7 @@ const Comment = (props) => {
   return (
     <div className={styles.Comment}>
       <Image
-        src={
-          process.env.NEXT_PUBLIC_URL +
-          props?.user?.avatar.replaceAll('\\', '/')
-        }
+        src={process.env.NEXT_PUBLIC_URL + props?.user?.avatar}
         alt={props.user.username}
         width={80}
         height={80}
