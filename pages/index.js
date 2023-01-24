@@ -67,7 +67,7 @@ export default HomePage;
 
 export async function getStaticProps() {
   try {
-    const { data } = await getAllPosts();
+    const data = await getAllPosts();
     console.log(data);
     return {
       props: {

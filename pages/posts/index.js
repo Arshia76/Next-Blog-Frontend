@@ -108,7 +108,7 @@ export default PostsPage;
 
 export async function getStaticProps() {
   try {
-    const { data } = await getAllPosts();
+    const data = await getAllPosts();
     return {
       props: {
         posts: data,
