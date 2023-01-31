@@ -26,6 +26,7 @@ const Post = ({ data, page }) => {
   });
 
   const { data: user, status } = useSession();
+  console.log(user);
   const router = useRouter();
   const [post, setPost] = useState(data);
 
@@ -129,11 +130,7 @@ const Post = ({ data, page }) => {
           <span>{post?.comments?.length || 0}</span>
         </div>
         <div onClick={handleLikePost}>
-          {post?.likes?.some((like) =>
-            like?.user?.id
-              ? like.user.id === user?.userId
-              : like.user === user?.userId
-          ) ? (
+          {post?.likes?.some((like) => like.user.id === user?.userId) ? (
             <BsFillHeartFill size={22} fill='#877E81' />
           ) : (
             <BsHeart size={22} fill='#877E81' />
