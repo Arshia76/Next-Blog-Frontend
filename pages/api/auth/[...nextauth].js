@@ -12,9 +12,11 @@ export const authOptions = {
       // Persist the OAuth access_token to the token right after signin
       console.log(token);
       console.log(account);
-      console.log(user);
-      token.access_token = user.data.access_token;
-      token.userId = user.data.id;
+      if (account) {
+        console.log(user);
+        token.access_token = user.data.access_token;
+        token.userId = user.data.id;
+      }
 
       return token;
     },
