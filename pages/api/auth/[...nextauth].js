@@ -19,7 +19,7 @@ export const authOptions = {
         token.userId = user.data.id;
       }
 
-      return token;
+      return { token, user };
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
@@ -39,9 +39,7 @@ export const authOptions = {
 
         const data = await localLogin(body);
         console.log('data-----', data);
-        return {
-          data,
-        };
+        return data;
       },
     }),
   ],
