@@ -25,6 +25,7 @@ const Login = (props) => {
 
     if (res.ok) {
       toast.success('Logged In SuccessFully');
+      console.log('success');
       router.replace(Resource.Routes.HOME);
       setLoading(false);
     } else {
