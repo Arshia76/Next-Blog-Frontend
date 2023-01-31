@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import Resource from '../../../public/Resource';
 import { ImSpinner2 } from 'react-icons/im';
+import { toast } from 'react-toastify';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
@@ -23,9 +24,11 @@ const Login = (props) => {
     console.log(res);
 
     if (res.ok) {
+      toast.success('Logged In SuccessFully');
       router.replace(Resource.Routes.HOME);
       setLoading(false);
     } else {
+      toast.error('Error In Login (Wrong cridentials)');
       console.log('failed');
       setLoading(false);
     }
