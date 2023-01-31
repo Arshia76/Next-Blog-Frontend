@@ -14,8 +14,8 @@ export const authOptions = {
       console.log('user-----', user);
       if (account) {
         console.log(user);
-        token.access_token = user.data.access_token;
-        token.userId = user.data.id;
+        token.access_token = user.access_token;
+        token.userId = user.id;
       }
 
       return token;
