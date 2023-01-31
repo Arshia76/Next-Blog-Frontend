@@ -18,7 +18,7 @@ export const authOptions = {
         token.userId = user.data.id;
       }
 
-      return { token, user };
+      return token;
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
@@ -26,7 +26,7 @@ export const authOptions = {
       console.log('tokenSession----', token);
       session.access_token = token.access_token;
       session.userId = token.userId;
-      return { ...session, ...token };
+      return session;
     },
   },
   providers: [
