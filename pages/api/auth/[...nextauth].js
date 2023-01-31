@@ -27,7 +27,7 @@ export const authOptions = {
       console.log('tokenSession----', token);
       session.access_token = token.access_token;
       session.userId = token.userId;
-      return session;
+      return { ...session, ...token };
     },
   },
   providers: [
