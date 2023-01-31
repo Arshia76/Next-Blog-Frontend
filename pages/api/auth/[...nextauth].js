@@ -10,8 +10,9 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, account, user }) {
       // Persist the OAuth access_token to the token right after signin
-      console.log(token);
-      console.log(account);
+      console.log('token-----', token);
+      console.log('account----', account);
+      console.log('user-----', user);
       if (account) {
         console.log(user);
         token.access_token = user.data.access_token;
@@ -22,6 +23,8 @@ export const authOptions = {
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
+      console.log('session----', session);
+      console.log('tokenSession----', token);
       session.access_token = token.access_token;
       session.userId = token.userId;
       return session;
@@ -35,7 +38,7 @@ export const authOptions = {
         const body = req.body;
 
         const data = await localLogin(body);
-        console.log(data);
+        console.log('data-----', data);
         return {
           data,
         };
