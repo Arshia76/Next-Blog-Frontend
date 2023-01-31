@@ -10,7 +10,8 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, account, user }) {
       // Persist the OAuth access_token to the token right after signin
-
+      console.log(token);
+      console.log(account);
       console.log(user);
       token.access_token = user.data.access_token;
       token.userId = user.data.id;
@@ -32,6 +33,7 @@ export const authOptions = {
         const body = req.body;
 
         const data = await localLogin(body);
+        console.log(data);
         return {
           data,
         };
